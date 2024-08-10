@@ -12,8 +12,10 @@ a finite amount of time. Instead, these algorithms terminate at some amount of i
 Checks whether a complex number "escapes" the range of the mandelbrot within a number of iterations. There are two implementations of this in the repo,
 a sequential, CPU based one, and a CUDA based parallel one.
 
+If the absolute value of some z is over 2, it is guaranteed to escape the mandelbrot set.
+
 ### Other algorithms
-I am not currently planning on implementing these algorithms now, but they could be implemented in the future.
+I am not currently planning on implementing these algorithms, but they could be implemented in the future.
 
 #### Buddhabrot
 Tracks the trajectories of complex numbers as they iterate through the mandelbrot recurrence. This can reveal some hidden structure in the
