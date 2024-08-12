@@ -23,6 +23,6 @@ __global__ void escapeTime(int** escapeTimes, int max_iters, double scale, doubl
 	escapeTimes[threadIdx.x][threadIdx.y] = i; 
 }
 
-void CudaEscapeTime() {
-
+void CudaEscapeTime(int** escapeTimes, int max_iters, int sizeX, int sizeY, double scale, double panX, double panY) {
+	
 }
