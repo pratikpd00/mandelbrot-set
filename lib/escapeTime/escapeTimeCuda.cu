@@ -1,3 +1,5 @@
+#include "escapeTimeCuda.cuh"
+
 __global__ void escapeTime(int** escapeTimes, int max_iters, double scale, double panX, double panY) {
 	//Mandelbrot recurrence for reference: z_n+1 = z_n^2 + c
 	const double cReal = threadIdx.x * scale + panX;
@@ -24,5 +26,6 @@ __global__ void escapeTime(int** escapeTimes, int max_iters, double scale, doubl
 }
 
 void CudaEscapeTime(int** escapeTimes, int max_iters, int sizeX, int sizeY, double scale, double panX, double panY) {
-	
+	dim3 threads(sizeX, sizeY);
+	escapeTime<<<1, threads>>>(escapeTimes, max_iters, scale, panX, panY);
 }
