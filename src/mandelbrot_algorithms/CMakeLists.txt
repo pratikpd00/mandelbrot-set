@@ -1,1 +1,1 @@
-add_library(escapeTime SHARED escapeTimeCUDA.cu)
+add_library(escapeTime SHARED escapeTimeCUDA.cu "types.h")
