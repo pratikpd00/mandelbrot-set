@@ -1,0 +1,3 @@
+enable_testing()
+add_executable(CUDAEscapeTimeTests cudaEscapeTimeTests.cpp)
+target_link_libraries(CUDAEscapeTimeTests escapeTime)
