@@ -1,3 +1,3 @@
-add_library(escapeTime SHARED escapeTimeCUDA.cu  "escapeTimeCuda.h")
+add_library(escapeTime SHARED escapeTimeCUDA.cu)
 
 target_include_directories(escapeTime PUBLIC ../../include)
