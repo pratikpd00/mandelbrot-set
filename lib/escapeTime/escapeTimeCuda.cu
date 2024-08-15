@@ -40,5 +40,6 @@ void CudaEscapeTime(int* escapeTimes, int max_iters, int sizeX, int sizeY, doubl
 	dim3 blocks(blockXNum, blockYNum);
 	int* cudaEscapeTimes;
 	cudaMalloc(&cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY);
-	escapeTime<<<blocks, threads>>>(escapeTimes, max_iters, sizeX, sizeY, scale, panX, panY);
+	escapeTime<<<blocks, threads>>>(cudaEscapeTimes, max_iters, sizeX, sizeY, scale, panX, panY);
+	cudaMemcpy(escapeTimes, cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY, cudaMemcpyDeviceToHost);
 }
