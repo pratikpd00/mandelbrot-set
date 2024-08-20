@@ -33,7 +33,7 @@ __global__ void escapeTime(int* escapeTimes, int sizeX, int sizeY, int max_iters
 	escapeTimes[x * sizeX + y] = i; 
 }
 
-void CudaEscapeTime(int* escapeTimes, int max_iters, int sizeX, int sizeY, double scale, double panX, double panY) {
+void escapeTimeCUDA(int* escapeTimes, int max_iters, int sizeX, int sizeY, double scale, double panX, double panY) {
 	dim3 threads(16, 16);
 	int blockXNum = ceil(sizeX/threads.x);
 	int blockYNum = ceil(sizeY/threads.y);
@@ -42,4 +42,5 @@ void CudaEscapeTime(int* escapeTimes, int max_iters, int sizeX, int sizeY, doubl
 	cudaMalloc(&cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY);
 	escapeTime<<<blocks, threads>>>(cudaEscapeTimes, max_iters, sizeX, sizeY, scale, panX, panY);
 	cudaMemcpy(escapeTimes, cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY, cudaMemcpyDeviceToHost);
+	cudaFree(cudaEscapeTimes);
 }
