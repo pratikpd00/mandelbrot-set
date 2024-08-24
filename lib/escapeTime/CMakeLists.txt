@@ -1,7 +1,6 @@
 add_library(escapeTime STATIC
 	escapeTimeCuda.cu
-	escapeTimeCuda.cuh
-	${CMAKE_SOURCE_DIR}/include/escapeTime/escapeTimeCuda.h
+	escapeTimeSequential.cpp
 )
 
 set_target_properties(escapeTime PROPERTIES CUDA_SEPARABLE_COMPILATION ON)

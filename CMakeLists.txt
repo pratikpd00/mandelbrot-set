@@ -15,6 +15,10 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(GTEST_VERSION v1.15.2)
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+	set(CMAKE_CUDA_FLAGS ${CMAKE_CUDA_FLAGS} "-g -G")
+endif()
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -24,7 +28,10 @@ FetchContent_Declare(
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+include(GoogleTest)
 
-add_subdirectory(lib)
+
 enable_testing()
+add_subdirectory(lib)
+
 

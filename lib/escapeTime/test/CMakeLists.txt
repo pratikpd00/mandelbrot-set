@@ -1,9 +1,9 @@
-add_executable(CUDAEscapeTimeTests 
-	cudaEscapeTimeTests.cpp
+add_executable(EscapeTimeTests 
+	"escapeTimeTests.cpp"
 )
-target_include_directories(CUDAEscapeTimeTests PUBLIC ${CMAKE_SOURCE_DIR}/include /lib)
-target_link_libraries(CUDAEscapeTimeTests gtest_main)
-target_link_libraries(CUDAEscapeTimeTests escapeTime)
+target_include_directories(EscapeTimeTests PUBLIC ${CMAKE_SOURCE_DIR}/include ..)
+target_link_libraries(EscapeTimeTests gtest_main)
+target_link_libraries(EscapeTimeTests escapeTime)
 
 include(GoogleTest)
-gtest_discover_tests(CUDAEscapeTimeTests)
+gtest_discover_tests(EscapeTimeTests)
