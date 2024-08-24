@@ -1,5 +1,5 @@
 add_executable(EscapeTimeTests 
-	"escapeTimeTests.cpp"
+	escapeTimeTests.cpp
 )
 target_include_directories(EscapeTimeTests PUBLIC ${CMAKE_SOURCE_DIR}/include ..)
 target_link_libraries(EscapeTimeTests gtest_main)

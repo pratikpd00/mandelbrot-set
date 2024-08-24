@@ -14,6 +14,7 @@ project ("mandelbrot" LANGUAGES CXX CUDA)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(GTEST_VERSION v1.15.2)
+set(BENCHMARK ON)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	set(CMAKE_CUDA_FLAGS ${CMAKE_CUDA_FLAGS} "-g -G")
@@ -29,6 +30,12 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
+
+macro(add_directory_if dir cond)
+	if(cond)
+		add_subdirectory(dir)
+	endif()
+endmacro()
 
 
 enable_testing()
