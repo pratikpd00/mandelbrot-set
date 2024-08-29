@@ -30,16 +30,19 @@ int main(int argc, char** argv) {
 		}
 	}
 
+
 	std::vector<int> cudaGrid(sizeX * sizeY);
 	std::vector<int> seqGrid(sizeX * sizeY);
 
+	float step = 2 / (float)sizeX;
+
 	auto start = std::chrono::steady_clock::now();
-	escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, 0.01, -1, 1);
+	escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, step, -1, -1);
 	auto end = std::chrono::steady_clock::now();
 	auto cudaTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
 	start = std::chrono::steady_clock::now();
-	escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, 0.01, -1, 1);
+	escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, step,-1, -1);
 	end = std::chrono::steady_clock::now();
 	auto seqTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
