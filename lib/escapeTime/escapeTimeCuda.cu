@@ -45,6 +45,7 @@ void escapeTimeCUDA(int* escapeTimes, int maxIters, int sizeX, int sizeY, double
 	
 	auto start = std::chrono::steady_clock::now();
 	escapeTime<<<blocks, threads>>>(cudaEscapeTimes, maxIters, sizeX, sizeY, scale, panX, panY);
+	cudaDeviceSynchronize();
 	auto end = std::chrono::steady_clock::now();
 	auto cudaTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
