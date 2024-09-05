@@ -9,7 +9,7 @@ if(BUILD_TESTING)
 	add_subdirectory(test)
 endif()
 
-if(BENCHMARKING) 
+if(BENCHMARK) 
 	add_subdirectory(benchmark)
 endif()
 

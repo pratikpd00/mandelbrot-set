@@ -15,7 +15,7 @@ __global__ void escapeTime(int* escapeTimes, int max_iters, int sizeX, int sizeY
 				cudaDeviceSynchronize(); \
 				auto end = std::chrono::steady_clock::now(); \
 				auto cudaTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start); \
-				std::cout << "Kernel elapsed time: " << cudaTime.count() << "\n";
+				std::cout << "Kernel elapsed time: " << cudaTime.count() << "ms\n";
 #else
 #define RUN_ESCAPE_TIME_KERNEL escapeTime<<<blocks, threads>>> (cudaEscapeTimes, maxIters, sizeX, sizeY, scale, panX, panY); \
 				cudaDeviceSynchronize();
