@@ -24,8 +24,8 @@ int main(int argc, char** argv) {
 
 	if (argc > 3) {
 		iters = atoi(argv[3]);
-		if (iters <= 0) {
-			std::cerr << "iters must be a positive integer";
+		if (iters < 0) {
+			std::cerr << "iters must be at least 0";
 			return 2;
 		}
 	}
