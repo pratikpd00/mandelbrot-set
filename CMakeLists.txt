@@ -1,7 +1,6 @@
 ﻿set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(GTEST_VERSION v1.15.2)
-set(BENCHMARK ON)
 
 cmake_minimum_required (VERSION 3.8)
 
