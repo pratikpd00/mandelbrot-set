@@ -38,15 +38,13 @@ namespace cudaEscapeTime {
 		int iters = 50;
 		double scale = 0.1;
 		double panX = -1;
-		double panY = 1;
+		double panY = -1;
 
 		std::vector<int> cudaGrid(sizeX * sizeY), seqGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
 		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
 
-		for (int i = 0; i < cudaGrid.size(); i++) {
-			ASSERT_EQ(cudaGrid[i], seqGrid[i]);
-		}
+		ASSERT_EQ(cudaGrid, seqGrid);
 	}
 
 	TEST(testCudaEscapeTime, LargeGrid) {
@@ -55,14 +53,12 @@ namespace cudaEscapeTime {
 		int iters = 50;
 		double scale = 0.01;
 		double panX = -1;
-		double panY = 1;
+		double panY = -1;
 
 		std::vector<int> cudaGrid(sizeX * sizeY), seqGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
 		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
-		for (int i = 0; i < cudaGrid.size(); i++) {
-			ASSERT_EQ(cudaGrid[i], seqGrid[i]);
-		}
+		ASSERT_EQ(cudaGrid, seqGrid);
 	}
 
 	TEST(testCudaEscapeTime, UnevenThreadBlocks) {
@@ -71,15 +67,13 @@ namespace cudaEscapeTime {
 		int iters = 50;
 		double scale = 0.01;
 		double panX = -1;
-		double panY = 1;
+		double panY = -1;
 
 		std::vector<int> cudaGrid(sizeX * sizeY), seqGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
 		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
 
-		for (int i = 0; i < cudaGrid.size(); i++) {
-			ASSERT_EQ(cudaGrid[i], seqGrid[i]);
-		}
+		ASSERT_EQ(cudaGrid, seqGrid);
 	}
 
 	TEST(testCudaEscapeTime, LargerXThanY) {
@@ -88,15 +82,13 @@ namespace cudaEscapeTime {
 		int iters = 50;
 		double scale = 0.01;
 		double panX = -1;
-		double panY = 1;
+		double panY = -1;
 
 		std::vector<int> cudaGrid(sizeX * sizeY);
 		std::vector<int> seqGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
 		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
-		for (int i = 0; i < cudaGrid.size(); i++) {
-			ASSERT_EQ(cudaGrid[i], seqGrid[i]);
-		}
+		ASSERT_EQ(cudaGrid, seqGrid);
 	}
 
 	TEST(testCudaEscapeTime, UnevenDims) {
@@ -105,15 +97,13 @@ namespace cudaEscapeTime {
 		int iters = 50;
 		double scale = 0.01;
 		double panX = -1;
-		double panY = 1;
+		double panY = -1;
 
 		std::vector<int> cudaGrid(sizeX * sizeY);
 		std::vector<int> seqGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
 		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
-		for (int i = 0; i < cudaGrid.size(); i++) {
-			ASSERT_EQ(cudaGrid[i], seqGrid[i]);
-		}
+		ASSERT_EQ(cudaGrid, seqGrid);
 	}
 }
 

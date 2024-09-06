@@ -1,6 +1,7 @@
-﻿# CMakeList.txt : Top-level CMake project file, do global configuration
-# and include sub-projects here.
-#
+﻿set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(GTEST_VERSION v1.15.2)
+
 cmake_minimum_required (VERSION 3.8)
 
 # Enable Hot Reload for MSVC compilers if supported.
@@ -10,11 +11,6 @@ if (POLICY CMP0141)
 endif()
 
 project ("mandelbrot" LANGUAGES CXX CUDA)
-
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(GTEST_VERSION v1.15.2)
-set(BENCHMARK ON)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 	set(CMAKE_CUDA_FLAGS ${CMAKE_CUDA_FLAGS} "-g -G")
@@ -26,19 +22,18 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/google/googletest.git
   GIT_TAG        ${GTEST_VERSION}
 )
+
+if(BENCHMARK)
+	add_compile_definitions(BENCHMARKING)
+endif()
+
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 
-macro(add_directory_if dir cond)
-	if(cond)
-		add_subdirectory(dir)
-	endif()
-endmacro()
 
-
-enable_testing()
+include(CTest)
 add_subdirectory(lib)
 
 

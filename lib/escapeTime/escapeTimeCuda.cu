@@ -1,5 +1,4 @@
 #include <cmath>
-#include <chrono>
 #include <iostream>
 #include "escapeTimeCuda.cuh"
 
@@ -43,13 +42,7 @@ void escapeTimeCUDA(int* escapeTimes, int maxIters, int sizeX, int sizeY, double
 	int* cudaEscapeTimes;
 	cudaMalloc(&cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY);
 	
-	auto start = std::chrono::steady_clock::now();
-	escapeTime<<<blocks, threads>>>(cudaEscapeTimes, maxIters, sizeX, sizeY, scale, panX, panY);
-	cudaDeviceSynchronize();
-	auto end = std::chrono::steady_clock::now();
-	auto cudaTime = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-
-	std::cout << "Kernel elapsed time: " << cudaTime.count() << "\n";
+	RUN_ESCAPE_TIME_KERNEL;
 
 	cudaMemcpy(escapeTimes, cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY, cudaMemcpyDeviceToHost);
 	cudaFree(cudaEscapeTimes);
