@@ -31,11 +31,7 @@ under this category.
 
 ## Running benchmarks
 ### Compilation
-The top level [CMakeLists.txt](../../CMakeLists.txt) includes an attribute called BENCHMARK. This can be set to ON or OFF depending on whether you want to compile
-benchmark code. After setting this attribute you can compile using cmake as normal.
-
-This attribute also controls a preprocessor macro for the CUDA code that inserts clock and standard output code in the function that calls the CUDA kernel. As a result,
-once you are done running benchmarks, you should set the BENCHMARK attribute to OFF.
+CMakePresets.json contains a preset called x64-benchmark. It can be accessed in Visual Studio as a build configuration.
 
 ### Run the executable
 After building the benchmark code, Benchmark.exe times the CUDA kernal, C++ function call using CUDA, and the sequential function using the command line arguments that you apply.
@@ -52,4 +48,12 @@ Benchmark.exe sizeX sizeY iters
 ### Python benchmark script
 The [benchmark.py](../../../benchmark.py) script in the root of this repository runs the benchmark over multiple grid sizes and amounts of iterations and graphs the results using 
 [matplotlib](https://matplotlib.org/). The results are saved to a figures folder in the root of this repository.
+
+To run the script, use
+
+```
+python benchmark.py path/to/Benchmark.exe
+```
+
+If you are using one of the provided presets, the path should be ```out\build\x64-Benchmark\lib\escapeTime\benchmark\Benchmark.exe```.
 
