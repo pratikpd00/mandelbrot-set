@@ -2,7 +2,7 @@
 Benchmark data in this README is from an Nvidia GTX 1660 SUPER and Intel i7-11700F at 2.50 Hz.
 
 ## Benchmark data
-The following data from an Nvidia GTX 1660 SUPER and Intel i7-11700F at 2.50 Hz. The benchmark code runs the escape time algorithm for a grid of complex numbers
+The benchmark code runs the escape time algorithm for a grid of complex numbers
 with real part -1 to 1. The complex part scales starts at -1 and spacing is the same as for the real part. All figures in this doc use a square grid.
 
 CUDA is not the best approach to the escape time algorithm in all scenarios, such as a small grid. This is expected, as the architecture
@@ -34,7 +34,7 @@ under this category.
 CMakePresets.json contains a preset called x64-benchmark. It can be accessed in Visual Studio as a build configuration.
 
 ### Run the executable
-After building the benchmark code, Benchmark.exe times the CUDA kernal, C++ function call using CUDA, and the sequential function using the command line arguments that you apply.
+After building the benchmark code, use Benchmark.exe to time the CUDA kernel, C++ function call using CUDA, and the sequential function.
 The call is as follows:
 
 ```
@@ -47,7 +47,7 @@ Benchmark.exe sizeX sizeY iters
 
 ### Python benchmark script
 The [benchmark.py](../../../benchmark.py) script in the root of this repository runs the benchmark over multiple grid sizes and amounts of iterations and graphs the results using 
-[matplotlib](https://matplotlib.org/). The results are saved to a figures folder in the root of this repository.
+[matplotlib](https://matplotlib.org/). The results are saved to the figures folder in the root of this repository.
 
 To run the script, use
 
