@@ -9,7 +9,9 @@
       "installDir": "${sourceDir}/out/install/${presetName}",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl.exe",
-        "CMAKE_CXX_COMPILER": "cl.exe"
+        "CMAKE_CXX_COMPILER": "cl.exe",
+        "CMAKE_CUDA_COMPILER": "nvcc.exe",
+        "CMAKE_PREFIX_PATH": "C:/Qt/6.7.2/msvc2019_64"
       },
       "condition": {
         "type": "equals",
@@ -100,9 +102,8 @@
     {
       "name": "x64-benchmark",
       "displayName": "x64 Benchmark",
-      "inherits": "x64-debug",
+      "inherits": "x64-release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
         "BENCHMARK": "ON"
       }
     }
