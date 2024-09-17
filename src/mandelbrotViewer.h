@@ -11,6 +11,9 @@ class mandelbrotViewer : public QDialog
 {
     Q_OBJECT
 
+signals:
+    void loadPixmap(QPixmap);
+
 public:
     explicit mandelbrotViewer(QWidget *parent = nullptr);
     ~mandelbrotViewer();

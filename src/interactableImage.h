@@ -3,7 +3,7 @@
 
 
 #include <QImage>
-#include <memory>
+#include <vector>
 
 #include "escapeTime/types.h"
 
@@ -14,15 +14,15 @@
 class InteractableImage : public QImage {
 public:
 	InteractableImage(int sizeX, int sizeY, QImage::Format format) : QImage(sizeX, sizeY, format) {};
-	virtual void zoom(double factor) = 0;
-	virtual void pan(int xPan, int yPan) = 0;
-	virtual void update() = 0;
-	virtual int scaled(int width, int height, Qt::AspectRatioMode aspectRatioMode = Qt::IgnoreAspectRatio, Qt::TransformationMode transformMode = Qt::FastTransformation) const = 0;
+	//virtual void zoom(double factor) = 0;
+	//virtual void pan(int xPan, int yPan) = 0;
+	//virtual void update() = 0;
+	//virtual int scaled(int width, int height, Qt::AspectRatioMode aspectRatioMode = Qt::IgnoreAspectRatio, Qt::TransformationMode transformMode = Qt::FastTransformation) const = 0;
 };
 
 class MandelbrotEscapeTimeImage : public InteractableImage {
 	escapeTimeAlgorithm escapeTime;
-	int* mandelbrotEscapeTimeGrid;
+	std::vector<int> mandelbrotEscapeTimeGrid;
 	int iters;
 	double scale;
 	double xStart;

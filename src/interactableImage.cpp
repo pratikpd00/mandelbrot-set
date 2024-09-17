@@ -4,11 +4,11 @@
 MandelbrotEscapeTimeImage::MandelbrotEscapeTimeImage(int sizeX, int sizeY, escapeTimeAlgorithm escapeTime) : InteractableImage(sizeX, sizeY, QImage::Format_RGB32)
 {
 	this->escapeTime = escapeTime;
-	mandelbrotEscapeTimeGrid = new int[sizeX * sizeY];
+	mandelbrotEscapeTimeGrid = std::vector<int>(sizeX * sizeY);
 	this->iters = 100;
 	this->scale = 0.01;
 	this->yStart = this->xStart = -1;
-	escapeTime(mandelbrotEscapeTimeGrid, iters, sizeX, sizeY, scale, xStart, yStart);
+	escapeTime(mandelbrotEscapeTimeGrid.data(), iters, sizeX, sizeY, scale, xStart, yStart);
 	update();
 }
 

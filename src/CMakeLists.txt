@@ -1,4 +1,5 @@
-add_subdirectory(mandelbrotDisplay)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
 
 qt_add_executable(MandelbrotViewer
 	interactableImage.cpp
@@ -6,4 +7,9 @@ qt_add_executable(MandelbrotViewer
 	mandelbrotViewer.ui
 )
 
-target_link_libraries(MandelbrotViewer PRIVATE Qt6::Widgets)
+target_link_libraries(MandelbrotViewer PUBLIC
+	Qt::Core
+    Qt::Gui
+	Qt::Widgets
+	escapeTime
+)
