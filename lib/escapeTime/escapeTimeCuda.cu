@@ -2,7 +2,7 @@
 #include <iostream>
 #include "escapeTimeCuda.cuh"
 
-__global__ void escapeTime(int* escapeTimes, int maxIters, int sizeX, int sizeY,  double scale, double panX, double panY) {
+__global__ void escapeTimeKernel(int* escapeTimes, int maxIters, int sizeX, int sizeY,  double scale, double panX, double panY) {
 	int x = blockIdx.x * blockDim.x + threadIdx.x;
 	int y = blockIdx.y * blockDim.y + threadIdx.y;
 

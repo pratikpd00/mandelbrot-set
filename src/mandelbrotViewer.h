@@ -12,7 +12,7 @@ class mandelbrotViewer : public QDialog
     Q_OBJECT
 
 signals:
-    void loadPixmap(QPixmap);
+    void loadPixmap(QImage);
 
 public:
     explicit mandelbrotViewer(QWidget *parent = nullptr);
@@ -20,6 +20,10 @@ public:
 
 private:
     Ui::mandelbrotViewer *ui;
+};
+
+class interactiveImageDisplay : QWidget {
+
 };
 
 #endif // MANDELBROTVIEWER_H

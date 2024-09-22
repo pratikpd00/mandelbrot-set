@@ -13,8 +13,7 @@ mandelbrotViewer::mandelbrotViewer(QWidget *parent)
     auto image = MandelbrotEscapeTimeImage(811, 521, escapeTimeCUDA);
     QPixmap map(811, 521);
     map.convertFromImage(image);
-    connect(this, &mandelbrotViewer::loadPixmap, ui->mandelbrotImage, &QLabel::setPixmap);
-    emit loadPixmap(map);
+    ui->mandelbrotImage->render(&image);
 }
 
 mandelbrotViewer::~mandelbrotViewer()

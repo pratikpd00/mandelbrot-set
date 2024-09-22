@@ -13,17 +13,14 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="mandelbrotImage">
+  <widget class="QWidget" name="mandelbrotImage" native="true">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>15</y>
-     <width>811</width>
-     <height>521</height>
+     <x>10</x>
+     <y>10</y>
+     <width>120</width>
+     <height>80</height>
     </rect>
-   </property>
-   <property name="text">
-    <string/>
    </property>
   </widget>
  </widget>

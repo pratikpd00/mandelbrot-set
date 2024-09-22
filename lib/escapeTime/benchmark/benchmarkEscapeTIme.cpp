@@ -50,3 +50,4 @@ int main(int argc, char** argv) {
 	std::cout << "Sequential elapsed time: " << seqTime.count() << "ms\n";
 
 }
+
