@@ -2,6 +2,9 @@
 #define MANDELBROTVIEWER_H
 
 #include <QDialog>
+#include <QLabel>
+
+#include "interactableImage.h"
 
 namespace Ui {
 class mandelbrotViewer;
@@ -22,8 +25,16 @@ private:
     Ui::mandelbrotViewer *ui;
 };
 
-class interactiveImageDisplay : QWidget {
 
+class InteractiveImageDisplay : public QLabel {
+    
+    Q_OBJECT
+
+    InteractableImage* image;
+public:
+    InteractiveImageDisplay(QWidget *parent = nullptr);
+    InteractiveImageDisplay(InteractableImage* image);
+    void setImage(InteractableImage* image);
 };
 
 #endif // MANDELBROTVIEWER_H

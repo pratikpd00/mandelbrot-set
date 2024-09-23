@@ -1,4 +1,4 @@
-﻿{
+{
   "version": 3,
   "configurePresets": [
     {
@@ -109,6 +109,31 @@
       "cacheVariables": {
         "BENCHMARK": "ON"
       }
+    },
+    {
+      "name": "x64-benchmark-debug",
+      "displayName": "x64 Benchmark debug",
+      "inherits": "x64-debug",
+      "cacheVariables": {
+        "BENCHMARK": "ON"
+      }
+    },
+    {
+      "hidden": true,
+      "name": "Qt",
+      "cacheVariables": {
+        "CMAKE_PREFIX_PATH": "$env{QTDIR}"
+      },
+      "vendor": {
+        "qt-project.org/Qt": {
+          "checksum": "wVa86FgEkvdCTVp1/nxvrkaemJc="
+        }
+      }
     }
-  ]
+  ],
+  "vendor": {
+    "qt-project.org/Presets": {
+      "checksum": "KM25x8CVZro4d7SbrMvZ+GpwYOE="
+    }
+  }
 }

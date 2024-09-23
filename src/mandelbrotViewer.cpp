@@ -7,18 +7,25 @@
 
 mandelbrotViewer::mandelbrotViewer(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::mandelbrotViewer)
-{
+    , ui(new Ui::mandelbrotViewer) {
     ui->setupUi(this);
     auto image = MandelbrotEscapeTimeImage(811, 521, escapeTimeCUDA);
-    QPixmap map(811, 521);
-    map.convertFromImage(image);
-    ui->mandelbrotImage->render(&image);
+    ui->mandelbrotImage->setImage(&image);
 }
 
-mandelbrotViewer::~mandelbrotViewer()
-{
+mandelbrotViewer::~mandelbrotViewer() {
     delete ui;
+}
+
+InteractiveImageDisplay::InteractiveImageDisplay(QWidget *parent) : QLabel(parent) {}
+
+InteractiveImageDisplay::InteractiveImageDisplay(InteractableImage* image) : QLabel() {
+    this->setImage(image);
+}
+
+void InteractiveImageDisplay::setImage(InteractableImage* image) {
+    this->image = image;
+    this->setPixmap(QPixmap::fromImage(*image));
 }
 
 int main(int argc, char** argv) {
@@ -27,3 +34,5 @@ int main(int argc, char** argv) {
     viewer.show();
     return app.exec();
 }
+
+

@@ -21,6 +21,9 @@ public:
 };
 
 class MandelbrotEscapeTimeImage : public InteractableImage {
+
+	//Q_OBJECT
+
 	escapeTimeAlgorithm escapeTime;
 	std::vector<int> mandelbrotEscapeTimeGrid;
 	int iters;
