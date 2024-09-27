@@ -14,10 +14,11 @@
 class InteractableImage : public QImage {
 public:
 	InteractableImage(int sizeX, int sizeY, QImage::Format format) : QImage(sizeX, sizeY, format) {};
-	//virtual void zoom(double factor) = 0;
-	//virtual void pan(int xPan, int yPan) = 0;
+	//virtual void zoom(double factor);
+	virtual void pan(int xPan, int yPan) = 0;
 	//virtual void update() = 0;
-	//virtual int scaled(int width, int height, Qt::AspectRatioMode aspectRatioMode = Qt::IgnoreAspectRatio, Qt::TransformationMode transformMode = Qt::FastTransformation) const = 0;
+	virtual InteractableImage* resized(int width, int height) = 0;
+	InteractableImage* resized(QSize size);
 };
 
 class MandelbrotEscapeTimeImage : public InteractableImage {
@@ -34,9 +35,9 @@ class MandelbrotEscapeTimeImage : public InteractableImage {
 	void update();
 public:
 	MandelbrotEscapeTimeImage(int sizeX, int sizeY, escapeTimeAlgorithm escapeTime);
-	//void zoom(double factor);
-	//void pan(int xPan, int yPan);
-	//int scaled(int width, int height, Qt::AspectRatioMode aspectRatioMode = Qt::IgnoreAspectRatio, Qt::TransformationMode transformMode = Qt::FastTransformation) const;
+	//void zoom(double factor) override;
+	void pan(int xPan, int yPan) override;
+	InteractableImage* resized(int width, int height) override;
 };
 
 #endif // !INTERACTABLE_IMAGE_H

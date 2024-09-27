@@ -8,24 +8,39 @@
 mandelbrotViewer::mandelbrotViewer(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::mandelbrotViewer) {
-    ui->setupUi(this);
-    auto image = MandelbrotEscapeTimeImage(811, 521, escapeTimeCUDA);
+    ui->setupUi(this);  
+    auto image = MandelbrotEscapeTimeImage(0, 0, escapeTimeCUDA);
     ui->mandelbrotImage->setImage(&image);
+    connect(this, &mandelbrotViewer::resize, ui->mandelbrotImage, &InteractiveImageDisplay::newSize);
 }
 
 mandelbrotViewer::~mandelbrotViewer() {
     delete ui;
 }
 
-InteractiveImageDisplay::InteractiveImageDisplay(QWidget *parent) : QLabel(parent) {}
+void mandelbrotViewer::resizeEvent(QResizeEvent* event) {
+    this->QDialog::resizeEvent(event);
+    emit this->resize(this->size());
+}
+
+InteractiveImageDisplay::InteractiveImageDisplay(QWidget* parent) : QLabel(parent) {
+    if (parent != nullptr) {
+        this->resize(parent->size());
+    }
+}
 
 InteractiveImageDisplay::InteractiveImageDisplay(InteractableImage* image) : QLabel() {
     this->setImage(image);
 }
 
 void InteractiveImageDisplay::setImage(InteractableImage* image) {
-    this->image = image;
-    this->setPixmap(QPixmap::fromImage(*image));
+    this->image = std::unique_ptr<InteractableImage>(image->resized(this->size()));
+    this->setPixmap(QPixmap::fromImage(*(this->image)));
+}
+
+void InteractiveImageDisplay::newSize(QSize size) {
+    this->resize(size);
+    this->setImage(this->image->resized(size));
 }
 
 int main(int argc, char** argv) {

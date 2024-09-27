@@ -14,14 +14,6 @@
    <string>Dialog</string>
   </property>
   <widget class="InteractiveImageDisplay" name="mandelbrotImage">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>601</width>
-     <height>511</height>
-    </rect>
-   </property>
    <property name="text">
     <string>TextLabel</string>
    </property>
