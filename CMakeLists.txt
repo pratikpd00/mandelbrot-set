@@ -35,5 +35,6 @@ include(GoogleTest)
 
 include(CTest)
 add_subdirectory(lib)
+add_subdirectory(include)
 
 

@@ -9,18 +9,18 @@ class MandelbrotImageTransformGrid : public ImageTransformGrid {
 private:
 	int sizeX;
 	int sizeY;
-
+	int maxIters;
 	double scale;
 	double startX;
 	double startY;
-	RGBColor* colorGridCUDA;
-	std::vector<RGBColor> colorGrid;
+	color* colorGridCUDA;
+	std::vector<color> colorGrid;
 
 	void updateGrid();
 public:
 	MandelbrotImageTransformGrid(int sizeX, int sizeY, int maxIters, double scale, double startX, double startY);
 	
-	virtual RGBColor get(int x, int y) override;
+	virtual RGBcolor get(int x, int y) override;
 	virtual void zoom(double scale) override;
 	virtual void resize(int sizeX, int sizeY, int centerX, int centerY) override;
 	virtual void translate(double panX, double panY) override;

@@ -2,27 +2,27 @@
 #include <vector>
 #include <iostream>
 
-#include "escapeTime/escapeTimeCuda.h"
 #include "escapeTimeSequential.h"
+#include "escapeTimeCudaWrapper.h"
 
 namespace cudaEscapeTime {
 	TEST(testCudaEscapeTime, OutOfRadius) {
-		int escapeTime;
-		int* escapeTimePtr = &escapeTime;
+		RGBColor escapeTime;
+		RGBColor* escapeTimePtr = &escapeTime;
 		escapeTimeCUDA(escapeTimePtr, 1000, 1, 1, 1.0, 4.0, 4.0);
 		ASSERT_EQ(escapeTime, 1);
 	}
 
 	TEST(testCudaEscapeTime, EscapesAfterMultipleIterations) {
-		int escapeTime;
-		int* escapeTimePtr = &escapeTime;
+		RGBColor escapeTime;
+		RGBColor* escapeTimePtr = &escapeTime;
 		escapeTimeCUDA(escapeTimePtr, 1000, 1, 1, 1.0, -0.0318, -0.8614);
 		ASSERT_EQ(escapeTime, 11);
 	}
 
 	TEST(testCudaEscapeTime, DoesNotEscape) {
-		int escapeTime;
-		int* escapeTimePtr = &escapeTime;
+		RGBColor escapeTime;
+		RGBColor* escapeTimePtr = &escapeTime;
 		escapeTimeCUDA(escapeTimePtr, 256, 1, 1, 1.0, -0.2583, 0.6562);
 		ASSERT_EQ(escapeTime, 256);
 	}
@@ -40,9 +40,10 @@ namespace cudaEscapeTime {
 		double panX = -1;
 		double panY = -1;
 
-		std::vector<int> cudaGrid(sizeX * sizeY), seqGrid(sizeX * sizeY);
+		std::vector<RGBColor> seqGrid(sizeX * sizeY);
+		std::vector<RGBColor> cudaGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
-		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
+		escapeTimeSequential(seqGrid, iters, sizeX, sizeY, scale, panX, panY);
 
 		ASSERT_EQ(cudaGrid, seqGrid);
 	}
@@ -55,9 +56,10 @@ namespace cudaEscapeTime {
 		double panX = -1;
 		double panY = -1;
 
-		std::vector<int> cudaGrid(sizeX * sizeY), seqGrid(sizeX * sizeY);
+		std::vector<RGBColor> seqGrid(sizeX * sizeY);
+		std::vector<RGBColor> cudaGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
-		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
+		escapeTimeSequential(seqGrid, iters, sizeX, sizeY, scale, panX, panY);
 		ASSERT_EQ(cudaGrid, seqGrid);
 	}
 
@@ -69,9 +71,10 @@ namespace cudaEscapeTime {
 		double panX = -1;
 		double panY = -1;
 
-		std::vector<int> cudaGrid(sizeX * sizeY), seqGrid(sizeX * sizeY);
+		std::vector<RGBColor> seqGrid(sizeX * sizeY);
+		std::vector<RGBColor> cudaGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
-		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
+		escapeTimeSequential(seqGrid, iters, sizeX, sizeY, scale, panX, panY);
 
 		ASSERT_EQ(cudaGrid, seqGrid);
 	}
@@ -84,10 +87,10 @@ namespace cudaEscapeTime {
 		double panX = -1;
 		double panY = -1;
 
-		std::vector<int> cudaGrid(sizeX * sizeY);
-		std::vector<int> seqGrid(sizeX * sizeY);
+		std::vector<RGBColor> cudaGrid(sizeX * sizeY);
+		std::vector<RGBColor> seqGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
-		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
+		escapeTimeSequential(seqGrid, iters, sizeX, sizeY, scale, panX, panY);
 		ASSERT_EQ(cudaGrid, seqGrid);
 	}
 
@@ -99,10 +102,10 @@ namespace cudaEscapeTime {
 		double panX = -1;
 		double panY = -1;
 
-		std::vector<int> cudaGrid(sizeX * sizeY);
-		std::vector<int> seqGrid(sizeX * sizeY);
+		std::vector<RGBColor> cudaGrid(sizeX * sizeY);
+		std::vector<RGBColor> seqGrid(sizeX * sizeY);
 		escapeTimeCUDA(cudaGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
-		escapeTimeSequential(seqGrid.data(), iters, sizeX, sizeY, scale, panX, panY);
+		escapeTimeSequential(seqGrid, iters, sizeX, sizeY, scale, panX, panY);
 		ASSERT_EQ(cudaGrid, seqGrid);
 	}
 }
@@ -124,8 +127,8 @@ namespace sequentialEscapeTime {
 	}
 
 	TEST(testSequentialEscapeTime, SquareGridWithScaleAndPan) {
-		std::vector<int> grid(9);
-		escapeTimeSequential(grid.data(), 10, 3, 3, 0.3, 0.2, 0.1);
+		std::vector<RGBColor> grid(9);
+		escapeTimeSequential(grid, 10, 3, 3, 0.3, 0.2, 0.1);
 		double xPoints[3] = {0.2, 0.5, 0.8};
 		double yPoints[3] = { 0.1, 0.4, 0.7 };
 		for (int i = 0; i < 3; i++) {
@@ -137,8 +140,8 @@ namespace sequentialEscapeTime {
 	}
 
 	TEST(testSequentialEscapeTime, LargerXThanY) {
-		std::vector<int> grid(6);
-		escapeTimeSequential(grid.data(), 10, 3, 2, 0.3, 0.2, 0.1);
+		std::vector<RGBColor> grid(6);
+		escapeTimeSequential(grid, 10, 3, 2, 0.3, 0.2, 0.1);
 		double xPoints[3] = { 0.2, 0.5, 0.8 };
 		double yPoints[2] = { 0.1, 0.4 };
 		for (int i = 0; i < 3; i++) {

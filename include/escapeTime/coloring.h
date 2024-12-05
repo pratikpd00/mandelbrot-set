@@ -7,10 +7,10 @@
 
 typedef uint32_t RGBColor;
 
-typedef RGBColor (*ColoringFunction) (int);
+typedef RGBColor (*ColoringFunction) (int escapeTime, int maxEscapeTime);
 
-inline RGBColor color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = ALPHA_OPAQUE) {
-	return (a << 24) | (r << 16) | (g << 8) | b;
+inline RGBColor color(uint8_t r, uint8_t g, uint8_t b) {
+	return ALPHA_OPAQUE | (r << 16) | (g << 8) | b;
 }
 
 #endif

@@ -1,8 +1,9 @@
 #include <cmath>
 #include <iostream>
+
 #include "escapeTimeCuda.cuh"
 
-__global__ void escapeTime(int* escapeTimes, int maxIters, int sizeX, int sizeY,  double scale, double panX, double panY) {
+__global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunction coloringFunction) {
 	int x = blockIdx.x * blockDim.x + threadIdx.x;
 	int y = blockIdx.y * blockDim.y + threadIdx.y;
 
@@ -31,19 +32,21 @@ __global__ void escapeTime(int* escapeTimes, int maxIters, int sizeX, int sizeY,
 		zImaginarySqr = zImaginary*zImaginary;
 	}
 
-	escapeTimes[x * sizeY + y] = i; 
+	escapedColors[x * sizeY + y] = coloringFunction(i, maxIters); 
 }
 
-void escapeTimeCUDA(int* escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY) {
+
+//This function is for testing. The actual UI should use imageTransformGrid's children instead
+void escapeTimeCUDA(RGBColor* escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY) {
 	dim3 threads(16, 16);
 	int blockXNum = ceil(sizeX/(float)threads.x);
 	int blockYNum = ceil(sizeY/(float)threads.y);
 	dim3 blocks(blockXNum, blockYNum);
-	int* cudaEscapeTimes;
-	cudaMalloc(&cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY);
+	RGBColor* cudaEscapeTimes;
+	cudaMalloc(&cudaEscapeTimes, sizeof(RGBColor) * sizeX * sizeY);
 	
 	RUN_ESCAPE_TIME_KERNEL;
-
+	
 	cudaMemcpy(escapeTimes, cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY, cudaMemcpyDeviceToHost);
 	cudaFree(cudaEscapeTimes);
 }

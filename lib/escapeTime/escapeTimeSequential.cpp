@@ -1,4 +1,5 @@
 #include "escapeTimeSequential.h"
+#include "escapeTime/coloring.h"
 
 int pointEscapeTime(double cReal, double cImaginary, int maxIters) {
 	double zReal = 0;
@@ -21,7 +22,7 @@ int pointEscapeTime(double cReal, double cImaginary, int maxIters) {
 	return i;
 }
 
-void escapeTimeSequential(int* escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY) {
+void escapeTimeSequential(std::vector<RGBColor>& escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY) {
 	for (int x = 0; x < sizeX; x++) {
 		for (int y = 0; y < sizeY; y++) {
 			double real = ((double)x) * scale + panX;
