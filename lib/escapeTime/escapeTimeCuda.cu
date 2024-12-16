@@ -32,7 +32,7 @@ __global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int
 		zImaginarySqr = zImaginary*zImaginary;
 	}
 
-	escapedColors[x * sizeY + y] = coloringFunction(i, maxIters); 
+	escapedColors[x * sizeY + y] = coloringFunction(i, maxIters);
 }
 
 

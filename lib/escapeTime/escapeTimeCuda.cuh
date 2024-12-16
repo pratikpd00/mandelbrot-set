@@ -6,9 +6,6 @@
 
 __global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunction coloringFunction);
 
-__device__ RGBColor defaultColoring(int escapeTime, int maxEscapeTime) {
-	return escapeTime;
-}
 
 
 #ifdef BENCHMARKING

@@ -1,6 +1,7 @@
 add_library(escapeTime STATIC
 	escapeTimeCuda.cu
 	escapeTimeSequential.cpp
+	coloringFunctions.cu
 	#mandelbrotImageTransformGrid.cu
   "escapeTimeCudaWrapper.h")
 

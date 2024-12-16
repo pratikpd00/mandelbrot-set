@@ -14,7 +14,7 @@ void MandelbrotImageTransformGrid::updateGrid() {
 
 MandelbrotImageTransformGrid::MandelbrotImageTransformGrid(int sizeX, int sizeY, int maxIters, double scale, double startX, double startY){
     cudaMalloc(&colorGridCUDA, sizeX * sizeY);
-    colorGrid = std::vector<color>(sizeX * sizeY);
+    colorGrid = std::vector<RGBColor>(sizeX * sizeY);
     this->sizeX = sizeX;
     this->sizeY = sizeY;
     this->maxIters = maxIters; 
@@ -24,7 +24,7 @@ MandelbrotImageTransformGrid::MandelbrotImageTransformGrid(int sizeX, int sizeY,
     updateGrid();
 }
 
-color MandelbrotImageTransformGrid::get(int x, int y) {
+RGBColor MandelbrotImageTransformGrid::get(int x, int y) {
     return colorGrid[y * sizeX + x];
 }
 

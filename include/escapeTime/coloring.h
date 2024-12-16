@@ -7,10 +7,15 @@
 
 typedef uint32_t RGBColor;
 
-typedef RGBColor (*ColoringFunction) (int escapeTime, int maxEscapeTime);
-
 inline RGBColor color(uint8_t r, uint8_t g, uint8_t b) {
 	return ALPHA_OPAQUE | (r << 16) | (g << 8) | b;
+}
+
+/* Cuda does not support passing function pointers to kernels, so we use an enum instead */
+namespace ColoringFunction {
+	typedef enum {
+		DEFAULT,
+	} Function;
 }
 
 #endif
