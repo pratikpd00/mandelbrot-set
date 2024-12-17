@@ -22,12 +22,13 @@ int pointEscapeTime(double cReal, double cImaginary, int maxIters) {
 	return i;
 }
 
-void escapeTimeSequential(std::vector<RGBColor>& escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY) {
+void escapeTimeSequential(std::vector<RGBColor>& escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunction::Function func) {
 	for (int x = 0; x < sizeX; x++) {
 		for (int y = 0; y < sizeY; y++) {
 			double real = ((double)x) * scale + panX;
 			double imaginary = ((double)y) * scale + panY;
-			escapeTimes[x * sizeY + y] = pointEscapeTime(real, imaginary, maxIters);
+			auto escapeIterations = pointEscapeTime(real, imaginary, maxIters);
+			escapeTimes[x * sizeY + y] = ColoringFunction::color(escapeIterations, maxIters, func);
 		}
 	}
 }

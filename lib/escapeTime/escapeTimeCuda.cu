@@ -2,8 +2,9 @@
 #include <iostream>
 
 #include "escapeTimeCuda.cuh"
+#include "coloringFunctions.cuh"
 
-__global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunction coloringFunction) {
+__global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunction::Function func) {
 	int x = blockIdx.x * blockDim.x + threadIdx.x;
 	int y = blockIdx.y * blockDim.y + threadIdx.y;
 
@@ -32,7 +33,7 @@ __global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int
 		zImaginarySqr = zImaginary*zImaginary;
 	}
 
-	escapedColors[x * sizeY + y] = coloringFunction(i, maxIters);
+	escapedColors[x * sizeY + y] = ColoringFunction::color(i, maxIters, func);
 }
 
 
