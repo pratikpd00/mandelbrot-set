@@ -4,7 +4,7 @@
 #include "escapeTimeCuda.cuh"
 #include "coloringFunctions.cuh"
 
-__global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunction::Function func) {
+__global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunctionType func) {
 	int x = blockIdx.x * blockDim.x + threadIdx.x;
 	int y = blockIdx.y * blockDim.y + threadIdx.y;
 
@@ -33,11 +33,11 @@ __global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int
 		zImaginarySqr = zImaginary*zImaginary;
 	}
 
-	escapedColors[x * sizeY + y] = ColoringFunction::color(i, maxIters, func);
+	escapedColors[x * sizeY + y] = colorFunction(i, maxIters, func);
 }
 
 
-//This function is for testing. The actual UI should use imageTransformGrid's children instead
+//This function is for testing. MandelbrotImageTransformGrid wraps the CUDA kernel and should be used outside of testing
 void escapeTimeCUDA(RGBColor* escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY) {
 	dim3 threads(16, 16);
 	int blockXNum = ceil(sizeX/(float)threads.x);

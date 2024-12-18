@@ -4,8 +4,6 @@
 
 #include "escapeTime/coloring.h"
 
-namespace ColoringFunction {
-    RGBColor color(int iterations, int maxIterations, ColoringFunction::Function function);
-}
+RGBColor colorFunction(int iterations, int maxIterations, ColoringFunctionType function);
 
 #endif

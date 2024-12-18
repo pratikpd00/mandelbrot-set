@@ -13,17 +13,23 @@ private:
 	double scale;
 	double startX;
 	double startY;
-	color* colorGridCUDA;
-	std::vector<color> colorGrid;
+	RGBColor* colorGridCUDA;
+	std::vector<RGBColor> colorGrid;
+	ColoringFunctionType coloringFunction;
 
 	void updateGrid();
 public:
 	MandelbrotImageTransformGrid(int sizeX, int sizeY, int maxIters, double scale, double startX, double startY);
 	
-	virtual RGBcolor get(int x, int y) override;
-	virtual void zoom(double scale) override;
-	virtual void resize(int sizeX, int sizeY, int centerX, int centerY) override;
-	virtual void translate(double panX, double panY) override;
+	virtual RGBColor get(int x, int y) override;
+	virtual void zoom(double scale, int centerX, int centerY) override;
+	virtual void resizeGrid(int sizeX, int sizeY) override;
+	virtual void translate(double offsetX, double offsetY) override;
+	//add the remaining functions from the base class ImageTransformGrid
+	virtual void setColoring(ColoringFunctionType func) override;
+	virtual ColoringFunctionType getColoring() override;
+	
+
 
 	~MandelbrotImageTransformGrid();
 	

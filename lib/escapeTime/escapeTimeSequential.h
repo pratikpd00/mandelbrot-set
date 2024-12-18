@@ -4,7 +4,7 @@
 #include "escapeTime/coloring.h"
 #include "coloringFunctionsHost.h"
 
-void escapeTimeSequential(std::vector<RGBColor>& escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunction::Function func);
+void escapeTimeSequential(std::vector<RGBColor>& escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunctionType func);
 
 int pointEscapeTime(double cReal, double cImaginary, int maxIters);
 

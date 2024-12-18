@@ -12,10 +12,8 @@ inline RGBColor color(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 /* Cuda does not support passing function pointers to kernels, so we use an enum instead */
-namespace ColoringFunction {
-	enum class Function {
-		DEFAULT,
-	};
-}
+enum class ColoringFunctionType {
+	DEFAULT,
+};
 
 #endif

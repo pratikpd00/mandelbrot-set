@@ -5,8 +5,7 @@
 #include "escapeTime/coloring.h"
 
 
-namespace ColoringFunction {
-    __device__ __host__ RGBColor color(int iterations, int maxIterations, ColoringFunction::Function function);
-}
+
+__device__ __host__ RGBColor colorFunction(int iterations, int maxIterations, ColoringFunctionType function);
 
 #endif

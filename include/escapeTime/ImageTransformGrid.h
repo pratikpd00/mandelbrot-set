@@ -7,10 +7,12 @@
 class ImageTransformGrid {
 public:
 	virtual ~ImageTransformGrid() {};
-	virtual void zoom(double scale) = 0;
-	virtual void resize(int sizeX, int sizeY, int centerX, int centerY) = 0;
-	virtual void translate(double panX, double panY) = 0;
+	virtual void zoom(double scale, int centerX, int centerY) = 0;
+	virtual void resizeGrid(int sizeX, int sizeY) = 0;
+	virtual void translate(double offsetX, double offsetY) = 0;
 	virtual RGBColor get(int escapeTime, int maxEscapeTime) = 0;
+	virtual void setColoring(ColoringFunctionType func) = 0;
+	virtual ColoringFunctionType getColoring() = 0;
 };
 
 #endif
