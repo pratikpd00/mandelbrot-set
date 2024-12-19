@@ -14,7 +14,7 @@ void MandelbrotImageTransformGrid::updateGrid() {
     cudaMemcpy(colorGrid.data(), colorGridCUDA, sizeof(RGBColor) * sizeX * sizeY, cudaMemcpyDeviceToHost);
 }
 
-MandelbrotImageTransformGrid::MandelbrotImageTransformGrid(int sizeX, int sizeY, int maxIters, double scale, double startX, double startY) {
+MandelbrotImageTransformGrid::MandelbrotImageTransformGrid(uint sizeX, uint sizeY, uint maxIters, double scale, double startX, double startY) {
     cudaMalloc(&colorGridCUDA, sizeof(RGBColor) * sizeX * sizeY);
     colorGrid = std::vector<RGBColor>(sizeX * sizeY);
     this->sizeX = sizeX;
@@ -32,7 +32,7 @@ RGBColor MandelbrotImageTransformGrid::get(int x, int y) {
         return -1;
     }
 
-    return colorGrid[y * sizeX + x];
+    return colorGrid[x * sizeY + y];
 }
 
 void MandelbrotImageTransformGrid::zoom(double scale, int centerX, int centerY) {
@@ -45,24 +45,21 @@ void MandelbrotImageTransformGrid::zoom(double scale, int centerX, int centerY) 
     updateGrid();
 }
 
-void MandelbrotImageTransformGrid::resizeGrid(int sizeX, int sizeY) {
-    auto negativeSize = false;
-    if (sizeX < 0) {
-        this->sizeX = 0;
-        negativeSize = true;
-    }
+void MandelbrotImageTransformGrid::resizeGrid(uint sizeX, uint sizeY) {
+    if (sizeX == this->sizeX && sizeY == this->sizeY) {
+		return;
+	}
 
-    if (sizeY < 0) {
-        this->sizeY = 0;
-        negativeSize = true;
-    }
-
-    if (negativeSize) {
-        return;
-    }
+    //To prevent unnecessary calls to cudaMalloc and cudaFree by resizing the grid, we only reallocate if the new size is larger
+    if (sizeX * sizeY > colorGrid.size()) {
+		cudaFree(colorGridCUDA);
+		cudaMalloc(&colorGridCUDA, sizeof(RGBColor) * sizeX * sizeY);
+		colorGrid = std::vector<RGBColor>(sizeX * sizeY);
+	}
 
     this->sizeX = sizeX;
     this->sizeY = sizeY;
+
     updateGrid();
 
 }

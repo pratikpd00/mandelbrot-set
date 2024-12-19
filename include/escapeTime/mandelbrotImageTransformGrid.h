@@ -22,11 +22,11 @@ private:
 
 	void updateGrid();
 public:
-	MandelbrotImageTransformGrid(int sizeX, int sizeY, int maxIters, double scale, double startX, double startY);
+	MandelbrotImageTransformGrid(uint sizeX, uint sizeY, uint maxIters, double scale, double startX, double startY);
 	
 	virtual RGBColor get(int x, int y) override;
 	virtual void zoom(double scale, int centerX, int centerY) override;
-	virtual void resizeGrid(int sizeX, int sizeY) override;
+	virtual void resizeGrid(uint sizeX, uint sizeY) override;
 	virtual void translate(double offsetX, double offsetY) override;
 	//add the remaining functions from the base class ImageTransformGrid
 	virtual void setColoring(ColoringFunctionType func) override;

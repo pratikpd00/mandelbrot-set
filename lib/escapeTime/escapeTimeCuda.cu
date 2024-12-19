@@ -4,7 +4,7 @@
 #include "escapeTimeCuda.cuh"
 #include "coloringFunctions.cuh"
 
-__global__ void escapeTime(RGBColor* escapedColors, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY, ColoringFunctionType func) {
+__global__ void escapeTime(RGBColor* escapedColors, uint maxIters, uint sizeX, uint sizeY, double scale, double panX, double panY, ColoringFunctionType func) {
 	int x = blockIdx.x * blockDim.x + threadIdx.x;
 	int y = blockIdx.y * blockDim.y + threadIdx.y;
 

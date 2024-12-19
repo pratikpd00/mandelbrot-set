@@ -3,6 +3,8 @@
 
 #include <cstdint>
 
+#include "util.h"
+
 #define ALPHA_OPAQUE 0xFF000000
 
 typedef uint32_t RGBColor;
