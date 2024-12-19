@@ -1,6 +1,5 @@
 #include "escapeTime/mandelbrotImageTransformGrid.h"
 #include "escapeTimeCuda.cuh"
-#include "mandelbrotImageTransformGrid.h"
 
 #define THREAD_SIZE 16
 
@@ -29,6 +28,10 @@ MandelbrotImageTransformGrid::MandelbrotImageTransformGrid(int sizeX, int sizeY,
 }
 
 RGBColor MandelbrotImageTransformGrid::get(int x, int y) {
+    if (x < 0 || y < 0 || x >= sizeX || y >= sizeY) {
+        return -1;
+    }
+
     return colorGrid[y * sizeX + x];
 }
 
@@ -43,6 +46,21 @@ void MandelbrotImageTransformGrid::zoom(double scale, int centerX, int centerY) 
 }
 
 void MandelbrotImageTransformGrid::resizeGrid(int sizeX, int sizeY) {
+    auto negativeSize = false;
+    if (sizeX < 0) {
+        this->sizeX = 0;
+        negativeSize = true;
+    }
+
+    if (sizeY < 0) {
+        this->sizeY = 0;
+        negativeSize = true;
+    }
+
+    if (negativeSize) {
+        return;
+    }
+
     this->sizeX = sizeX;
     this->sizeY = sizeY;
     updateGrid();

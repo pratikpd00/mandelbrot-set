@@ -14,6 +14,9 @@ private:
 	double startX;
 	double startY;
 	RGBColor* colorGridCUDA;
+
+	//For efficient use of CUDA, memory should be contiguous. To ensure that this is the case, a flattened 2d
+	//vector is used
 	std::vector<RGBColor> colorGrid;
 	ColoringFunctionType coloringFunction;
 
