@@ -54,7 +54,7 @@ void MandelbrotImageTransformGrid::resizeGrid(uint sizeX, uint sizeY) {
     if (sizeX * sizeY > colorGrid.size()) {
 		cudaFree(colorGridCUDA);
 		cudaMalloc(&colorGridCUDA, sizeof(RGBColor) * sizeX * sizeY);
-		colorGrid = std::vector<RGBColor>(sizeX * sizeY);
+		colorGrid.resize(sizeX * sizeY);
 	}
 
     this->sizeX = sizeX;
@@ -65,8 +65,8 @@ void MandelbrotImageTransformGrid::resizeGrid(uint sizeX, uint sizeY) {
 }
 
 void MandelbrotImageTransformGrid::translate(double offsetX, double offsetY) {
-    startY += offsetX;
-    startX += offsetY;
+    startY -= offsetY * scale;
+    startX -= offsetX * scale;
     updateGrid();
 }
 

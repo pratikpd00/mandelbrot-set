@@ -4,7 +4,11 @@
 #include "imageTransformGrid.h"
 #include <vector>
 
-
+/* This class wraps the cuda kernel that calculates the escape time for points and provides an interface to access the image 
+ * colored using those values.
+ * Since this class represents an image, parameters are in terms of pixels, not the complex numbers used to calculate the mandelbrot
+ * set.
+ */ 
 class MandelbrotImageTransformGrid : public ImageTransformGrid {
 private:
 	int sizeX;
@@ -28,7 +32,6 @@ public:
 	virtual void zoom(double scale, int centerX, int centerY) override;
 	virtual void resizeGrid(uint sizeX, uint sizeY) override;
 	virtual void translate(double offsetX, double offsetY) override;
-	//add the remaining functions from the base class ImageTransformGrid
 	virtual void setColoring(ColoringFunctionType func) override;
 	virtual ColoringFunctionType getColoring() override;
 	
