@@ -101,7 +101,7 @@ namespace ImageTransformGridTests {
 		MandelbrotImageTransformGrid grid(dimx, dimy, 100, 1.0, 0.0, 0.0);
 		grid.zoom(2.5, 20, 10);
 		std::vector<RGBColor> rawGrid(dimx * dimy);
-		escapeTimeCUDA(rawGrid.data(), 100, dimx, dimy, 2.5, -30.0, -15.0);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 2.5, -30.0, -15.0, ColoringFunctionType::DEFAULT);
 
 		for (int i = 0; i < dimx; i++) {
 			for (int j = 0; j < dimy; j++) {
@@ -117,7 +117,7 @@ namespace ImageTransformGridTests {
 		MandelbrotImageTransformGrid grid(dimx, dimy, 100, 0.1, 0.0, 0.0);
 		grid.translate(-1, -2);
 		std::vector<RGBColor> rawGrid(dimx * dimy);
-		escapeTimeCUDA(rawGrid.data(), 100, dimx, dimy, 0.1, 0.1, 0.2);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 0.1, 0.1, 0.2, ColoringFunctionType::DEFAULT);
 
 		for (int i = 0; i < dimx; i++) {
 			for (int j = 0; j < dimy; j++) {
@@ -134,7 +134,7 @@ namespace ImageTransformGridTests {
 		grid.translate(-1, -2);
 		grid.translate(-1, 4);
 		std::vector<RGBColor> rawGrid(dimx * dimy);
-		escapeTimeCUDA(rawGrid.data(), 100, dimx, dimy, 0.1, 0.2, -0.2);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 0.1, 0.2, -0.2, ColoringFunctionType::DEFAULT);
 
 		for (int i = 0; i < dimx; i++) {
 			for (int j = 0; j < dimy; j++) {
