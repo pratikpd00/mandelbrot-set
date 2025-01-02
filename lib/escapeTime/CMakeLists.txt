@@ -1,6 +1,9 @@
 add_library(escapeTime STATIC
 	escapeTimeCuda.cu
 	escapeTimeSequential.cpp
+	coloringFunctions.cu
+	mandelbrotImageTransformGrid.cu
+	mandelbrotImageTransformGrid.cpp
 )
 
 set_target_properties(escapeTime PROPERTIES CUDA_SEPARABLE_COMPILATION ON)

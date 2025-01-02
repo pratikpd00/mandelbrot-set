@@ -29,6 +29,10 @@ with a large amount of detail and accurate visualization while maintaining speed
 As development on the visualizer continues, there may be more functionality that might result in better performance scaling for CUDA. Any task that requires computation for each pixel (such as coloring) would fall
 under this category.
 
+Adding interop with a graphics API, such as openGL or DirectX would also be able to optimize the end application by handling as much as possible on the GPU, including displaying the mandelbrot set, therefore
+bypassing the need to copy memory onto the host. While I do not intend to develop this right now to focus on learning the basics of the CUDA runtime API, it is a long term goal that I would like to
+accomplish eventually.
+
 ## Running benchmarks
 ### Compilation
 CMakePresets.json contains a preset called x64-benchmark. It can be accessed in Visual Studio as a build configuration.

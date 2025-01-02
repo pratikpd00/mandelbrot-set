@@ -1,8 +1,10 @@
 #include <cmath>
 #include <iostream>
-#include "escapeTimeCuda.cuh"
 
-__global__ void escapeTimeKernel(int* escapeTimes, int maxIters, int sizeX, int sizeY,  double scale, double panX, double panY) {
+#include "escapeTimeCuda.cuh"
+#include "coloringFunctions.cuh"
+
+__global__ void escapeTime(RGBColor* escapedColors, uint maxIters, uint sizeX, uint sizeY, double scale, double panX, double panY, ColoringFunctionType func) {
 	int x = blockIdx.x * blockDim.x + threadIdx.x;
 	int y = blockIdx.y * blockDim.y + threadIdx.y;
 
@@ -31,19 +33,21 @@ __global__ void escapeTimeKernel(int* escapeTimes, int maxIters, int sizeX, int 
 		zImaginarySqr = zImaginary*zImaginary;
 	}
 
-	escapeTimes[x * sizeY + y] = i; 
+	escapedColors[x * sizeY + y] = colorFunction(i, maxIters, func);
 }
 
-void escapeTimeCUDA(int* escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double panX, double panY) {
+
+//This function is for testing. CudaMandelbrotImageTransformGrid wraps the CUDA kernel and should be used outside of testing
+void escapeTimeCUDA(RGBColor* escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double offsetX, double offsetY) {
 	dim3 threads(16, 16);
 	int blockXNum = ceil(sizeX/(float)threads.x);
 	int blockYNum = ceil(sizeY/(float)threads.y);
 	dim3 blocks(blockXNum, blockYNum);
-	int* cudaEscapeTimes;
-	cudaMalloc(&cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY);
+	RGBColor* cudaEscapeTimes;
+	cudaMalloc(&cudaEscapeTimes, sizeof(RGBColor) * sizeX * sizeY);
 	
 	RUN_ESCAPE_TIME_KERNEL;
-
+	
 	cudaMemcpy(escapeTimes, cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY, cudaMemcpyDeviceToHost);
 	cudaFree(cudaEscapeTimes);
 }

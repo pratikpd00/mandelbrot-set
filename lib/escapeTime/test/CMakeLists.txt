@@ -1,5 +1,6 @@
 add_executable(EscapeTimeTests 
 	escapeTimeTests.cpp
+	imageTransformGridTests.cpp
 )
 target_include_directories(EscapeTimeTests PUBLIC ..)
 target_link_libraries(EscapeTimeTests gtest_main)
