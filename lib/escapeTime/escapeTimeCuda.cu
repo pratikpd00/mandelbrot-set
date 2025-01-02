@@ -37,7 +37,7 @@ __global__ void escapeTime(RGBColor* escapedColors, uint maxIters, uint sizeX, u
 }
 
 
-//This function is for testing. MandelbrotImageTransformGrid wraps the CUDA kernel and should be used outside of testing
+//This function is for testing. CudaMandelbrotImageTransformGrid wraps the CUDA kernel and should be used outside of testing
 void escapeTimeCUDA(RGBColor* escapeTimes, int maxIters, int sizeX, int sizeY, double scale, double offsetX, double offsetY) {
 	dim3 threads(16, 16);
 	int blockXNum = ceil(sizeX/(float)threads.x);

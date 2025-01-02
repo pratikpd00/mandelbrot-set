@@ -3,7 +3,7 @@
 
 #define THREAD_SIZE 16
 
-void MandelbrotImageTransformGrid::updateGrid() {
+void CudaMandelbrotImageTransformGrid::updateGrid() {
     dim3 threads(THREAD_SIZE, THREAD_SIZE);
 	int blockXNum = ceil(sizeX/(float)threads.x);
 	int blockYNum = ceil(sizeY/(float)threads.y);
@@ -14,7 +14,7 @@ void MandelbrotImageTransformGrid::updateGrid() {
     cudaMemcpy(colorGrid.data(), colorGridCUDA, sizeof(RGBColor) * sizeX * sizeY, cudaMemcpyDeviceToHost);
 }
 
-MandelbrotImageTransformGrid::MandelbrotImageTransformGrid(uint sizeX, uint sizeY, uint maxIters, double scale, double startX, double startY) {
+CudaMandelbrotImageTransformGrid::CudaMandelbrotImageTransformGrid(uint sizeX, uint sizeY, uint maxIters, double scale, double startX, double startY) {
     cudaMalloc(&colorGridCUDA, sizeof(RGBColor) * sizeX * sizeY);
     colorGrid = std::vector<RGBColor>(sizeX * sizeY);
     this->sizeX = sizeX;
@@ -27,15 +27,15 @@ MandelbrotImageTransformGrid::MandelbrotImageTransformGrid(uint sizeX, uint size
     updateGrid();
 }
 
-RGBColor MandelbrotImageTransformGrid::get(int x, int y) {
+RGBColor CudaMandelbrotImageTransformGrid::get(int x, int y) {
     if (x < 0 || y < 0 || x >= sizeX || y >= sizeY) {
-        return -1;
+        return ALPHA_OPAQUE;
     }
 
     return colorGrid[x * sizeY + y];
 }
 
-void MandelbrotImageTransformGrid::zoom(double scale, int centerX, int centerY) {
+void CudaMandelbrotImageTransformGrid::zoom(double scale, int centerX, int centerY) {
     auto scaleChange = this->scale - scale;
     auto xOffset = centerX * scaleChange;
     auto yOffset = centerY * scaleChange;
@@ -45,7 +45,7 @@ void MandelbrotImageTransformGrid::zoom(double scale, int centerX, int centerY) 
     updateGrid();
 }
 
-void MandelbrotImageTransformGrid::resizeGrid(uint sizeX, uint sizeY) {
+void CudaMandelbrotImageTransformGrid::resizeGrid(uint sizeX, uint sizeY) {
     if (sizeX == this->sizeX && sizeY == this->sizeY) {
 		return;
 	}
@@ -64,21 +64,21 @@ void MandelbrotImageTransformGrid::resizeGrid(uint sizeX, uint sizeY) {
 
 }
 
-void MandelbrotImageTransformGrid::translate(double offsetX, double offsetY) {
+void CudaMandelbrotImageTransformGrid::translate(double offsetX, double offsetY) {
     startY -= offsetY * scale;
     startX -= offsetX * scale;
     updateGrid();
 }
 
-void MandelbrotImageTransformGrid::setColoring(ColoringFunctionType func) {
+void CudaMandelbrotImageTransformGrid::setColoring(ColoringFunctionType func) {
     coloringFunction = func;
     updateGrid();
 }
 
-ColoringFunctionType MandelbrotImageTransformGrid::getColoring() {
-    return ColoringFunctionType();
+ColoringFunctionType CudaMandelbrotImageTransformGrid::getColoring() {
+    return coloringFunction;
 }
 
-MandelbrotImageTransformGrid::~MandelbrotImageTransformGrid() {
+CudaMandelbrotImageTransformGrid::~CudaMandelbrotImageTransformGrid() {
     cudaFree(colorGridCUDA);
 }
