@@ -23,7 +23,7 @@ CpuMandelbrotImageTransformGrid::CpuMandelbrotImageTransformGrid(uint sizeX, uin
 
 RGBColor CpuMandelbrotImageTransformGrid::get(int x, int y)  {
 	//for the edge case where x or y is out of bounds, return black
-	if (x < 0 || x >= sizeX || y < 0 || y >= sizeY) return color(0, 0, 0);
+	if (x < 0 || x >= sizeX || y < 0 || y >= sizeY) return ALPHA_OPAQUE;
 	return colorGrid[x * sizeY + y];
 }
 

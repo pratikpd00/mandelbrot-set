@@ -29,7 +29,7 @@ CudaMandelbrotImageTransformGrid::CudaMandelbrotImageTransformGrid(uint sizeX, u
 
 RGBColor CudaMandelbrotImageTransformGrid::get(int x, int y) {
     if (x < 0 || y < 0 || x >= sizeX || y >= sizeY) {
-        return RGBColor(0, 0, 0);
+        return ALPHA_OPAQUE;
     }
 
     return colorGrid[x * sizeY + y];

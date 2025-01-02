@@ -173,5 +173,172 @@ namespace ImageTransformGridTests {
 		}
 	}
 
+	TEST(testCpuGrid, InitializeGrid) {
+		auto dim = 5;
+		CpuMandelbrotImageTransformGrid grid(dim, dim, 100, 0.1, 0.0, 0.0);
+		std::vector<RGBColor> rawGrid(dim * dim);
+		escapeTimeSequential(rawGrid, 100, dim, dim, 0.1, 0.0, 0.0, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				EXPECT_EQ(rawGrid[i * dim + j], grid.get(i, j));
+			}
+		}
+
+	}
+
+	TEST(testCpuGrid, InitializeLargeGrid) {
+		auto dim = 1000;
+		CpuMandelbrotImageTransformGrid grid(dim, dim, 100, 0.1, 0.0, 0.0);
+		std::vector<RGBColor> rawGrid(dim * dim);
+		escapeTimeSequential(rawGrid, 100, dim, dim, 0.1, 0.0, 0.0, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dim; i++) {
+			for (int j = 0; j < dim; j++) {
+				EXPECT_EQ(rawGrid[i * dim + j], grid.get(i, j));
+			}
+		}
+
+	}
+
+	TEST(testCpuGrid, InitializeRectangleGrid) {
+		auto dimx = 1000;
+		auto dimy = 500;
+		CpuMandelbrotImageTransformGrid grid(dimx, dimy, 100, 1.0, 0.0, 0.0);
+		std::vector<RGBColor> rawGrid(dimx * dimy);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 1.0, 0.0, 0.0, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dimx; i++) {
+			for (int j = 0; j < dimy; j++) {
+				EXPECT_EQ(rawGrid[i * dimy + j], grid.get(i, j));
+			}
+		}
+
+	}
+
+	TEST(testCpuGrid, InitializeWithParameters) {
+		auto dimx = 1000;
+		auto dimy = 500;
+		CpuMandelbrotImageTransformGrid grid(dimx, dimy, 100, 4.0, 0.5, -0.5);
+		std::vector<RGBColor> rawGrid(dimx * dimy);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 4.0, 0.5, -0.5, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dimx; i++) {
+			for (int j = 0; j < dimy; j++) {
+				EXPECT_EQ(rawGrid[i * dimy + j], grid.get(i, j));
+			}
+		}
+
+	}
+
+	TEST(testCpuGrid, Zoom) {
+		auto dimx = 1000;
+		auto dimy = 500;
+		CpuMandelbrotImageTransformGrid grid(dimx, dimy, 100, 1.0, 0.0, 0.0);
+		grid.zoom(2.0, 0.0, 0.0);
+		std::vector<RGBColor> rawGrid(dimx * dimy);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 2.0, 0.0, 0.0, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dimx; i++) {
+			for (int j = 0; j < dimy; j++) {
+				EXPECT_EQ(rawGrid[i * dimy + j], grid.get(i, j));
+			}
+		}
+	}
+
+	TEST(testCpuGrid, MultiZoom) {
+		auto dimx = 1000;
+		auto dimy = 500;
+		CpuMandelbrotImageTransformGrid grid(dimx, dimy, 100, 1.0, 0.0, 0.0);
+		grid.zoom(2.0, 0.0, 0.0);
+		grid.zoom(3.0, 0.0, 0.0);
+		std::vector<RGBColor> rawGrid(dimx * dimy);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 3.0, 0.0, 0.0, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dimx; i++) {
+			for (int j = 0; j < dimy; j++) {
+				EXPECT_EQ(rawGrid[i * dimy + j], grid.get(i, j));
+			}
+		}
+	}
+
+	TEST(testCpuGrid, OffsetZoom) {
+		auto dimx = 20;
+		auto dimy = 10;
+		CpuMandelbrotImageTransformGrid grid(dimx, dimy, 100, 1.0, 0.0, 0.0);
+		grid.zoom(2.5, 20, 10);
+		std::vector<RGBColor> rawGrid(dimx * dimy);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 2.5, -30.0, -15.0, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dimx; i++) {
+			for (int j = 0; j < dimy; j++) {
+				EXPECT_EQ(rawGrid[i * dimy + j], grid.get(i, j));
+			}
+		}
+	}
+
+
+	TEST(testCpuGrid, Pan) {
+		auto dimx = 20;
+		auto dimy = 10;
+		CpuMandelbrotImageTransformGrid grid(dimx, dimy, 100, 0.1, 0.0, 0.0);
+		grid.translate(-1, -2);
+		std::vector<RGBColor> rawGrid(dimx * dimy);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 0.1, 0.1, 0.2, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dimx; i++) {
+			for (int j = 0; j < dimy; j++) {
+				EXPECT_EQ(rawGrid[i * dimy + j], grid.get(i, j));
+			}
+		}
+	}
+
+
+	TEST(testCpuGrid, MultiPan) {
+		auto dimx = 20;
+		auto dimy = 10;
+		CpuMandelbrotImageTransformGrid grid(dimx, dimy, 100, 0.1, 0.0, 0.0);
+		grid.translate(-1, -2);
+		grid.translate(-1, 4);
+		std::vector<RGBColor> rawGrid(dimx * dimy);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 0.1, 0.2, -0.2, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dimx; i++) {
+			for (int j = 0; j < dimy; j++) {
+				EXPECT_EQ(rawGrid[i * dimy + j], grid.get(i, j));
+			}
+		}
+	}
+
+	TEST(testCpuGrid, Resize) {
+		auto dimx = 1000;
+		auto dimy = 500;
+		CpuMandelbrotImageTransformGrid grid(dimx, dimy, 100, 1.0, 0.0, 0.0);
+		grid.resizeGrid(100, 100);
+		std::vector<RGBColor> rawGrid(dimx * dimy);
+		escapeTimeSequential(rawGrid, 100, 100, 100, 1.0, 0.0, 0.0, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j < 100; j++) {
+				EXPECT_EQ(rawGrid[i * 100 + j], grid.get(i, j));
+			}
+		}
+	}
+
+	TEST(testCpuGrid, ResizeLarger) {
+		auto dimx = 1000;
+		auto dimy = 500;
+		CpuMandelbrotImageTransformGrid grid(dimx, dimy, 100, 1.0, 0.0, 0.0);
+		grid.resizeGrid(600, 1100);
+		std::vector<RGBColor> rawGrid(600 * 1100);
+		escapeTimeSequential(rawGrid, 100, 600, 1100, 1.0, 0.0, 0.0, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < 600; i++) {
+			for (int j = 0; j < 1100; j++) {
+				EXPECT_EQ(rawGrid[i * 1100 + j], grid.get(i, j));
+			}
+		}
+	}
+
 
 }
