@@ -10,6 +10,7 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
+set(CMAKE_CUDA_ARCHITECTURES "native")
 project ("mandelbrot" LANGUAGES CXX CUDA)
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -33,6 +34,9 @@ endif()
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
+find_package(Qt6 REQUIRED COMPONENTS 
+	Widgets
+)
 
 
 include(CTest)
