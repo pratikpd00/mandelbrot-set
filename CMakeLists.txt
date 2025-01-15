@@ -23,6 +23,8 @@ FetchContent_Declare(
   GIT_TAG        ${GTEST_VERSION}
 )
 
+find_package(Qt6 REQUIRED COMPONENTS Core)
+
 if(BENCHMARK)
 	add_compile_definitions(BENCHMARKING)
 endif()
@@ -36,5 +38,6 @@ include(GoogleTest)
 include(CTest)
 add_subdirectory(lib)
 add_subdirectory(include)
+add_subdirectory(src)
 
 
