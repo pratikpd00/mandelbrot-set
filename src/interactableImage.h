@@ -2,15 +2,11 @@
 #define INTERACTABLE_IMAGE_H
 
 
-#include <QImage>
-#include <vector>
-
-#include "escapeTime/types.h"
-
 #include <memory>
 
 #include <QObject>
 #include <QImage>
+#include <QPixmap>
 
 #include "escapeTime/ImageTransformGrid.h"
 
@@ -22,11 +18,15 @@ class InteractableImage : public QObject {
 	unique_ptr<ImageTransformGrid> grid;
 	QImage image;
 
+
 public:
 	InteractableImage(unique_ptr<ImageTransformGrid> grid);
+	void update();
+
+
 
 public slots:
-	void update();
+	
 
 signals:
 	void newPixmap(QPixmap map);

@@ -1,50 +1,29 @@
 #ifndef MANDELBROTVIEWER_H
 #define MANDELBROTVIEWER_H
 
+#include <QMainWindow>
 #include <memory>
-
-#include <QDialog>
-#include <QLabel>
-#include <QThread>
 
 #include "interactableImage.h"
 
 namespace Ui {
-class mandelbrotViewer;
+class MandelbrotViewer;
 }
 
-class mandelbrotViewer : public QDialog
+class MandelbrotViewer : public QMainWindow
 {
     Q_OBJECT
 
-signals:
-    void resize(QSize size);
-
 public:
-    explicit mandelbrotViewer(QWidget *parent = nullptr);
-    ~mandelbrotViewer();
-
-protected:
-    void resizeEvent(QResizeEvent* event) override;
-
-private:
-    Ui::mandelbrotViewer *ui;
-};
-
-
-class InteractiveImageDisplay : public QLabel {
-    
-    Q_OBJECT
-
-    std::unique_ptr<InteractableImage> image;
-    QThread processingThread;
-public:
-    InteractiveImageDisplay(QWidget *parent = nullptr);
-    InteractiveImageDisplay(InteractableImage* image);
-    void setImage(InteractableImage* image);
+    explicit MandelbrotViewer(QWidget *parent = nullptr);
+    ~MandelbrotViewer();
 
 public slots:
-    void newSize(QSize size);
+	void update(QPixmap pixmap);
+
+private:
+    Ui::MandelbrotViewer *ui;
+    unique_ptr<InteractableImage> image;
 };
 
 #endif // MANDELBROTVIEWER_H

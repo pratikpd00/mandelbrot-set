@@ -1,49 +1,29 @@
-#include <qapplication>
-
 #include "mandelbrotViewer.h"
-#include "ui_mandelbrotViewer.h"
-#include "interactableImage.h"
 
-mandelbrotViewer::mandelbrotViewer(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::mandelbrotViewer) {
-	ui->setupUi(this);
+#include <QGraphicsScene>
+
+#include "escapeTime/mandelbrotImageTransformGrid.h"
+#include "ui_mandelbrotViewer.h"
+
+MandelbrotViewer::MandelbrotViewer(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MandelbrotViewer)
+{
+    ui->setupUi(this);
+    image = unique_ptr<InteractableImage>(new InteractableImage(unique_ptr<ImageTransformGrid>(new CudaMandelbrotImageTransformGrid(size().width(), size().height(), 200, 0.1, -1, -1))));
+    connect(image.get(), &InteractableImage::newPixmap, this, &MandelbrotViewer::update);
+    image->update();
 }
 
-mandelbrotViewer::~mandelbrotViewer() {
+void MandelbrotViewer::update(QPixmap pixmap) {
+    auto scene = new QGraphicsScene(this);
+    scene->addPixmap(pixmap);
+    scene->setSceneRect(pixmap.rect());
+    ui->graphicsView->setScene(scene);
+
+}
+
+MandelbrotViewer::~MandelbrotViewer()
+{
     delete ui;
 }
-
-void mandelbrotViewer::resizeEvent(QResizeEvent* event) {
-    this->QDialog::resizeEvent(event);
-    emit this->resize(this->size());
-}
-
-InteractiveImageDisplay::InteractiveImageDisplay(QWidget* parent) : QLabel(parent) {
-    if (parent != nullptr) {
-        this->resize(parent->size());
-    }
-}
-
-InteractiveImageDisplay::InteractiveImageDisplay(InteractableImage* image) : QLabel() {
-    this->setImage(image);
-}
-
-void InteractiveImageDisplay::setImage(InteractableImage* image) {
-    this->image = std::unique_ptr<InteractableImage>(image->resized(this->size()));
-    this->setPixmap(QPixmap::fromImage(*(this->image)));
-}
-
-void InteractiveImageDisplay::newSize(QSize size) {
-    this->resize(size);
-    this->setImage(this->image->resized(size));
-}
-
-int main(int argc, char** argv) {
-    QApplication app(argc, argv);
-    mandelbrotViewer viewer;
-    viewer.show();
-    return app.exec();
-}
-
-
