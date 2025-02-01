@@ -2,6 +2,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
 qt_add_executable(MandelbrotViewer
+	interactableImage.cpp
 	mandelbrotViewer.cpp
 	mandelbrotViewer.ui
 )
@@ -12,3 +13,5 @@ target_link_libraries(MandelbrotViewer PUBLIC
 	Qt::Widgets
 	escapeTime
 )
+
+target_include_directories(MandelbrotViewer PUBLIC ${CMAKE_SOURCE_DIR}/include)

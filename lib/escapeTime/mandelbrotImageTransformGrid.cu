@@ -82,3 +82,7 @@ ColoringFunctionType CudaMandelbrotImageTransformGrid::getColoring() {
 CudaMandelbrotImageTransformGrid::~CudaMandelbrotImageTransformGrid() {
     cudaFree(colorGridCUDA);
 }
+
+//add the size getters declared in the header
+int CudaMandelbrotImageTransformGrid::getSizeX() { return sizeX; }
+int CudaMandelbrotImageTransformGrid::getSizeY() { return sizeY; }

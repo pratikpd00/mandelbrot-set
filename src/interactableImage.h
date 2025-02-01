@@ -7,37 +7,30 @@
 
 #include "escapeTime/types.h"
 
-/*
-* Intended as a common interface for any pannable and zoomable image.
-* Should not be implemented directly, and instead should be implemented by child classes.
-*/
-class InteractableImage : public QImage {
+#include <memory>
+
+#include <QObject>
+#include <QImage>
+
+#include "escapeTime/ImageTransformGrid.h"
+
+using namespace std;
+
+class InteractableImage : public QObject {
+	Q_OBJECT
+
+	unique_ptr<ImageTransformGrid> grid;
+	QImage image;
+
 public:
-	InteractableImage(int sizeX, int sizeY, QImage::Format format) : QImage(sizeX, sizeY, format) {};
-	//virtual void zoom(double factor);
-	virtual void pan(int xPan, int yPan) = 0;
-	//virtual void update() = 0;
-	virtual InteractableImage* resized(int width, int height) = 0;
-	InteractableImage* resized(QSize size);
-};
+	InteractableImage(unique_ptr<ImageTransformGrid> grid);
 
-class MandelbrotEscapeTimeImage : public InteractableImage {
-
-	//Q_OBJECT
-
-	escapeTimeAlgorithm escapeTime;
-	std::vector<int> mandelbrotEscapeTimeGrid;
-	int iters;
-	double scale;
-	double xStart;
-	double yStart;
-
+public slots:
 	void update();
-public:
-	MandelbrotEscapeTimeImage(int sizeX, int sizeY, escapeTimeAlgorithm escapeTime);
-	//void zoom(double factor) override;
-	void pan(int xPan, int yPan) override;
-	InteractableImage* resized(int width, int height) override;
+
+signals:
+	void newPixmap(QPixmap map);
 };
+
 
 #endif // !INTERACTABLE_IMAGE_H

@@ -3,15 +3,11 @@
 #include "mandelbrotViewer.h"
 #include "ui_mandelbrotViewer.h"
 #include "interactableImage.h"
-#include "escapeTime/escapeTimeCuda.h"
 
 mandelbrotViewer::mandelbrotViewer(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::mandelbrotViewer) {
-    ui->setupUi(this);  
-    auto image = MandelbrotEscapeTimeImage(0, 0, escapeTimeCUDA);
-    ui->mandelbrotImage->setImage(&image);
-    connect(this, &mandelbrotViewer::resize, ui->mandelbrotImage, &InteractiveImageDisplay::newSize);
+	ui->setupUi(this);
 }
 
 mandelbrotViewer::~mandelbrotViewer() {

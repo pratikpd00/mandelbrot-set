@@ -16,4 +16,4 @@ if(BENCHMARK)
 	add_subdirectory(benchmark)
 endif()
 
-#target_include_directories(escapeTime PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(escapeTime PUBLIC ${CMAKE_SOURCE_DIR}/include)

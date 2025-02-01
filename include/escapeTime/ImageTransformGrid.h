@@ -15,6 +15,8 @@ public:
 	virtual RGBColor get(int escapeTime, int maxEscapeTime) = 0;
 	virtual void setColoring(ColoringFunctionType func) = 0;
 	virtual ColoringFunctionType getColoring() = 0;
+	virtual int getSizeX() = 0;
+	virtual int getSizeY() = 0;
 };
 
 #endif

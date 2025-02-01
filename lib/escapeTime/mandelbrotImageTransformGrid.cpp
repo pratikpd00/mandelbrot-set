@@ -62,4 +62,7 @@ void CpuMandelbrotImageTransformGrid::setColoring(ColoringFunctionType func) {
 ColoringFunctionType CpuMandelbrotImageTransformGrid::getColoring() {
 	return coloringFunction;
 }
+
+int CpuMandelbrotImageTransformGrid::getSizeX() { return sizeX; }
+int CpuMandelbrotImageTransformGrid::getSizeY() { return sizeY; }
  

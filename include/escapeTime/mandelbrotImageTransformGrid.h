@@ -34,7 +34,8 @@ public:
 	virtual void translate(double offsetX, double offsetY) override;
 	virtual void setColoring(ColoringFunctionType func) override;
 	virtual ColoringFunctionType getColoring() override;
-	
+	virtual int getSizeX();
+	virtual int getSizeY();
 
 
 	~CudaMandelbrotImageTransformGrid();
@@ -65,6 +66,8 @@ public:
 	virtual void translate(double offsetX, double offsetY) override;
 	virtual void setColoring(ColoringFunctionType func) override;
 	virtual ColoringFunctionType getColoring() override;
+	virtual int getSizeX();
+	virtual int getSizeY();
 
 
 };
