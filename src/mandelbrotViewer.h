@@ -2,6 +2,8 @@
 #define MANDELBROTVIEWER_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+
 #include <memory>
 
 #include "interactableImage.h"
@@ -19,11 +21,13 @@ public:
     ~MandelbrotViewer();
 
 public slots:
-	void update(QPixmap pixmap);
+	void update(const QPixmap& pixmap);
 
 private:
     Ui::MandelbrotViewer *ui;
     unique_ptr<InteractableImage> image;
+    unique_ptr<QGraphicsScene> scene;
+    QGraphicsPixmapItem* scenePixmap;
 };
 
 #endif // MANDELBROTVIEWER_H

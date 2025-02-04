@@ -3,7 +3,7 @@
 void InteractableImage::update() {
 	for (auto i = 0; i < this->grid->getSizeX(); i++) {
 		for (auto j = 0; j < this->grid->getSizeY(); j++) {
-			this->image.setPixel(i, j, this->grid->get(i, j));
+			this->image.setPixelColor(i, j, QColor(this->grid->get(i, j)));
 		}
 	}
 
@@ -15,3 +15,6 @@ InteractableImage::InteractableImage(unique_ptr<ImageTransformGrid> grid) : grid
 	this->grid->setColoring(ColoringFunctionType::BLUE);
 }
 
+QPixmap InteractableImage::getPixmap() const {
+	return QPixmap::fromImage(image);
+}

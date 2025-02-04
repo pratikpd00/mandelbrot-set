@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
 
 #include "escapeTime/mandelbrotImageTransformGrid.h"
 #include "ui_mandelbrotViewer.h"
@@ -11,18 +12,21 @@ MandelbrotViewer::MandelbrotViewer(QWidget *parent)
     , ui(new Ui::MandelbrotViewer)
 {
     ui->setupUi(this);
-    unique_ptr<ImageTransformGrid> transformGrid(new CudaMandelbrotImageTransformGrid(size().width(), size().height(), 200, 0.1, -1, -1));
-    image = unique_ptr<InteractableImage>(new InteractableImage(transformGrid));
-    connect(image.get(), &InteractableImage::newPixmap, this, &MandelbrotViewer::update);
+    ui->mandelbrotView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->mandelbrotView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->mandelbrotView->resize(this->size());
+    auto size = ui->mandelbrotView->size();
+    unique_ptr<ImageTransformGrid> transformGrid(new CudaMandelbrotImageTransformGrid(size.width(), size.height(), 200, 0.005, -2, -1.5));
+    image = unique_ptr<InteractableImage>(new InteractableImage(std::move(transformGrid)));
+    scene = make_unique<QGraphicsScene>(this);
     image->update();
+    scenePixmap = scene->addPixmap(image->getPixmap());
+    ui->mandelbrotView->setScene(scene.get());
+    connect(image.get(), &InteractableImage::newPixmap, this, &MandelbrotViewer::update);
 }
 
-void MandelbrotViewer::update(QPixmap pixmap) {
-    auto scene = new QGraphicsScene(this);
-    scene->addPixmap(pixmap);
-    scene->setSceneRect(pixmap.rect());
-    ui->graphicsView->setScene(scene);
-
+void MandelbrotViewer::update(const QPixmap& pixmap) {
+    scenePixmap->setPixmap(pixmap);
 }
 
 MandelbrotViewer::~MandelbrotViewer()
