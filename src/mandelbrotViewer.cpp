@@ -15,22 +15,25 @@ MandelbrotViewer::MandelbrotViewer(QWidget *parent)
     ui->mandelbrotView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->mandelbrotView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->mandelbrotView->resize(this->size());
+
     auto size = ui->mandelbrotView->size();
+
     unique_ptr<ImageTransformGrid> transformGrid(new CudaMandelbrotImageTransformGrid(size.width(), size.height(), 200, 0.005, -2, -1.5));
     image = unique_ptr<InteractableImage>(new InteractableImage(std::move(transformGrid)));
-    scene = make_unique<QGraphicsScene>(this);
-    image->update();
-    scenePixmap = scene->addPixmap(image->getPixmap());
-    ui->mandelbrotView->setScene(scene.get());
-    connect(image.get(), &InteractableImage::newPixmap, this, &MandelbrotViewer::update);
-}
 
-void MandelbrotViewer::update(const QPixmap& pixmap) {
-    scenePixmap->setPixmap(pixmap);
+    image->moveToThread(&processingThread);
+    processingThread.start();
+    image->update();
+
+    ui->mandelbrotView->setPixmap(image->getPixmap());
+    connect(image.get(), &InteractableImage::newPixmap, ui->mandelbrotView, &InteractableImageView::update);
+    connect(ui->mandelbrotView, &InteractableImageView::pan, image.get(), &InteractableImage::pan);
 }
 
 MandelbrotViewer::~MandelbrotViewer()
 {
+    processingThread.quit();
+    processingThread.wait();
     delete ui;
 }
 

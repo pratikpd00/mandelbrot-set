@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="mandelbrotView">
+   <widget class="InteractableImageView" name="mandelbrotView">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -37,6 +37,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>InteractableImageView</class>
+   <extends>QGraphicsView</extends>
+   <header>interactableImageView.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

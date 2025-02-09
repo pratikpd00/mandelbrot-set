@@ -158,6 +158,21 @@ namespace ImageTransformGridTests {
 		}
 	}
 
+	TEST(testCudaGrid, PanNotEqual) {
+		auto dimx = 20;
+		auto dimy = 10;
+		CudaMandelbrotImageTransformGrid grid(dimx, dimy, 100, 0.1, 0.0, 0.0);
+		grid.translate(10, 15);
+		std::vector<RGBColor> rawGrid(dimx * dimy);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 0.1, 0, 0, ColoringFunctionType::DEFAULT);
+
+		for (int i = 0; i < dimx; i++) {
+			for (int j = 0; j < dimy; j++) {
+				EXPECT_NE(rawGrid[i * dimy + j], grid.get(i, j));
+			}
+		}
+	}
+
 	TEST(testCudaGrid, ResizeLarger) {
 		auto dimx = 1000;
 		auto dimy = 500;

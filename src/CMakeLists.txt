@@ -3,6 +3,8 @@ set(CMAKE_AUTOUIC ON)
 
 qt_add_executable(MandelbrotViewer
 	interactableImage.cpp
+	interactableImageView.cpp
+	interactableImageView.h
     mandelbrotViewer.h 
 	mandelbrotViewer.cpp 
 	mandelbrotViewer.ui

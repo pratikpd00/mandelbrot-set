@@ -18,3 +18,10 @@ InteractableImage::InteractableImage(unique_ptr<ImageTransformGrid> grid) : grid
 QPixmap InteractableImage::getPixmap() const {
 	return QPixmap::fromImage(image);
 }
+
+
+//Slots
+void InteractableImage::pan(QPoint delta) {
+	this->grid->translate(delta.x(), delta.y());
+	this->update();
+}

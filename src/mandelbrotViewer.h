@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QThread>
 
 #include <memory>
 
@@ -20,14 +21,13 @@ public:
     explicit MandelbrotViewer(QWidget *parent = nullptr);
     ~MandelbrotViewer();
 
-public slots:
-	void update(const QPixmap& pixmap);
 
 private:
     Ui::MandelbrotViewer *ui;
     unique_ptr<InteractableImage> image;
     unique_ptr<QGraphicsScene> scene;
     QGraphicsPixmapItem* scenePixmap;
+    QThread processingThread;
 };
 
 #endif // MANDELBROTVIEWER_H

@@ -12,6 +12,8 @@
 
 using namespace std;
 
+//Class to handle animations of the mandelbrot set. Since this object inherits from QObject, it can be used with Qt signals and slots, unlike the
+//wrapper classes.
 class InteractableImage : public QObject {
 	Q_OBJECT
 
@@ -26,7 +28,7 @@ public:
 
 
 public slots:
-	
+	void pan(QPoint delta);
 
 signals:
 	void newPixmap(QPixmap map);
