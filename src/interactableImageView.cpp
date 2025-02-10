@@ -3,6 +3,8 @@
 #include <QGraphicsPixmapItem>
 #include <QMouseEvent>
 
+#define WHEEL_ZOOM_FACTOR 0.02
+
 InteractableImageView::InteractableImageView(QWidget *parent)
 	: QGraphicsView(parent)
 {
@@ -48,10 +50,21 @@ void InteractableImageView::mouseReleaseEvent(QMouseEvent* event) {
 	event->ignore();
 }
 
-void InteractableImageView::update(const QPixmap& pixmap) {
+void InteractableImageView::update(const QPixmap pixmap) {
 	scenePixmap->setPixmap(pixmap);
 }
 
+
+void InteractableImageView::wheelEvent(QWheelEvent* event) {
+	double scale;
+	if (event->angleDelta().y() > 0) {
+		scale = 1 / (event->angleDelta().y() * WHEEL_ZOOM_FACTOR);
+	} else {
+		scale = -1 * event->angleDelta().y() * WHEEL_ZOOM_FACTOR;
+	}
+	emit zoom(scale, event->position().toPoint());
+	event->accept();
+}
 
 InteractableImageView::~InteractableImageView() {
 }

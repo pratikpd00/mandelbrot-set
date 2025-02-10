@@ -21,14 +21,18 @@ class InteractableImageView  : public QGraphicsView
 public:
 	InteractableImageView(QWidget *parent);
 	void setPixmap(const QPixmap& pixmap);
+
 	void mousePressEvent(QMouseEvent *event) override;
 	void mouseMoveEvent(QMouseEvent *event) override;
 	void mouseReleaseEvent(QMouseEvent *event) override;
+
+	void wheelEvent(QWheelEvent* event) override;
 	~InteractableImageView();
 
 public slots:
-	void update(const QPixmap& pixmap);
+	void update(const QPixmap pixmap);
 
 signals:
 	void pan(QPoint point);
+	void zoom(double factor, QPoint center);
 };

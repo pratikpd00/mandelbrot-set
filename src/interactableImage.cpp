@@ -25,3 +25,8 @@ void InteractableImage::pan(QPoint delta) {
 	this->grid->translate(delta.x(), delta.y());
 	this->update();
 }
+
+void InteractableImage::zoom(double scale, QPoint center) {
+	this->grid->zoom(scale, center.x(), center.y());
+	this->update();
+}

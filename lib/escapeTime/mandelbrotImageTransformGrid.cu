@@ -11,7 +11,7 @@ void CudaMandelbrotImageTransformGrid::updateGrid() {
 
     escapeTime<<<blocks, threads>>>(colorGridCUDA, maxIters, sizeX, sizeY, scale, startX, startY, coloringFunction);
     cudaDeviceSynchronize();
-    cudaMemcpy(colorGrid.data(), colorGridCUDA, sizeof(RGBColor) * sizeX * sizeY, cudaMemcpyDeviceToHost);
+    cudaMemcpy(colorGrid.data(), colorGridCUDA, sizeof(*colorGridCUDA) * sizeX * sizeY, cudaMemcpyDeviceToHost);
 }
 
 CudaMandelbrotImageTransformGrid::CudaMandelbrotImageTransformGrid(uint sizeX, uint sizeY, uint maxIters, double scale, double startX, double startY) {
@@ -36,10 +36,10 @@ RGBColor CudaMandelbrotImageTransformGrid::get(int x, int y) {
 }
 
 void CudaMandelbrotImageTransformGrid::zoom(double scale, int centerX, int centerY) {
-    auto scaleChange = this->scale - scale;
+    auto scaleChange = this->scale - (this->scale*scale);
     auto xOffset = centerX * scaleChange;
     auto yOffset = centerY * scaleChange;
-    this->scale = scale;
+    this->scale *= scale;
     startY += yOffset;
     startX += xOffset;
     updateGrid();

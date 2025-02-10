@@ -4,7 +4,6 @@
 
 
 void CpuMandelbrotImageTransformGrid::updateGrid() {
-	//call the sequential escape time function
 	escapeTimeSequential(colorGrid, maxIters, sizeX, sizeY, scale, startX, startY, ColoringFunctionType::DEFAULT);
 }
 
@@ -22,16 +21,16 @@ CpuMandelbrotImageTransformGrid::CpuMandelbrotImageTransformGrid(uint sizeX, uin
 }
 
 RGBColor CpuMandelbrotImageTransformGrid::get(int x, int y)  {
-	//for the edge case where x or y is out of bounds, return black
+	//Since the background is black, we can just return opaque if the coordinates are out of bounds
 	if (x < 0 || x >= sizeX || y < 0 || y >= sizeY) return ALPHA_OPAQUE;
 	return colorGrid[x * sizeY + y];
 }
 
 void CpuMandelbrotImageTransformGrid::zoom(double scale, int centerX, int centerY)  {
-	auto scaleChange = this->scale - scale;
+	auto scaleChange = this->scale - (this->scale * scale);
 	auto xOffset = centerX * scaleChange;
 	auto yOffset = centerY * scaleChange;
-	this->scale = scale;
+	this->scale *= scale;
 	startY += yOffset;
 	startX += xOffset;
 	updateGrid();
