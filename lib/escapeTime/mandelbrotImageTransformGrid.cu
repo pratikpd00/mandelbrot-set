@@ -6,7 +6,6 @@
 #define THREAD_SIZE 16
 
 void CudaMandelbrotImageTransformGrid::updateGrid() {
-    std::cerr << "Error stream working" << std::endl;
     dim3 threads(THREAD_SIZE, THREAD_SIZE);
 	int blockXNum = ceil(sizeX/(float)threads.x);
 	int blockYNum = ceil(sizeY/(float)threads.y);

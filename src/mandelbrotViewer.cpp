@@ -18,7 +18,7 @@ MandelbrotViewer::MandelbrotViewer(QWidget *parent)
 
     auto size = ui->mandelbrotView->size();
 
-    ImageTransformGrid* transformGrid = new CudaMandelbrotImageTransformGrid(size.width(), size.height(), 200, 0.005, -2, -1.5);
+    ImageTransformGrid* transformGrid = new CpuMandelbrotImageTransformGrid(size.width(), size.height(), 200, 0.005, -2, -1.5);
     image = unique_ptr<InteractableImage>(new InteractableImage(transformGrid));
 
     image->moveToThread(&processingThread);
