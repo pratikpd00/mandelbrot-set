@@ -22,7 +22,7 @@ class InteractableImage : public QObject {
 
 
 public:
-	InteractableImage(unique_ptr<ImageTransformGrid> grid);
+	InteractableImage(ImageTransformGrid* grid);
 	void update();
 	QPixmap getPixmap() const;
 

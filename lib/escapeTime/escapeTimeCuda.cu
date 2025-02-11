@@ -48,6 +48,10 @@ void escapeTimeCUDA(RGBColor* escapeTimes, int maxIters, int sizeX, int sizeY, d
 	
 	RUN_ESCAPE_TIME_KERNEL;
 	
+	auto err = cudaGetLastError();
+	if (err != cudaSuccess) {
+		std::cerr << "CUDA error running kernel " << cudaGetErrorName(err) << ": " << cudaGetErrorString(err) << std::endl;
+	}
 	cudaMemcpy(escapeTimes, cudaEscapeTimes, sizeof(*cudaEscapeTimes) * sizeX * sizeY, cudaMemcpyDeviceToHost);
 	cudaFree(cudaEscapeTimes);
 }

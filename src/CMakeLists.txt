@@ -19,3 +19,9 @@ target_link_libraries(MandelbrotViewer PRIVATE
 )
 
 target_include_directories(MandelbrotViewer PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+if (BUILD_TESTING)
+	add_executable(TestMain test.cpp)
+	target_link_libraries(TestMain PRIVATE escapeTime)
+	target_include_directories(TestMain PUBLIC ${CMAKE_SOURCE_DIR}/include)
+endif()

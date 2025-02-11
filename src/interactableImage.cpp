@@ -10,8 +10,11 @@ void InteractableImage::update() {
 	emit newPixmap(QPixmap::fromImage(image));
 }
 
-InteractableImage::InteractableImage(unique_ptr<ImageTransformGrid> grid) : grid(std::move(grid)) {
+InteractableImage::InteractableImage(ImageTransformGrid* grid)  {
+	this->grid = unique_ptr<ImageTransformGrid>(grid);
 	image = QImage(this->grid->getSizeX(), this->grid->getSizeY(), QImage::Format_ARGB32);
+	grid->resizeGrid(image.width() + 1, image.height() + 1);
+	grid->resizeGrid(image.width(), image.height());
 	this->grid->setColoring(ColoringFunctionType::BLUE);
 }
 

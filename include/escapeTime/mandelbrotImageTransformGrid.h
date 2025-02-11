@@ -38,7 +38,7 @@ public:
 	virtual int getSizeY();
 
 
-	~CudaMandelbrotImageTransformGrid();
+	virtual ~CudaMandelbrotImageTransformGrid() override;
 	
 };
 

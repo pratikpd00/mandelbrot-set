@@ -1,21 +1,34 @@
 #include "escapeTime/mandelbrotImageTransformGrid.h"
 #include "escapeTimeCuda.cuh"
 
+#include <iostream>
+
 #define THREAD_SIZE 16
 
 void CudaMandelbrotImageTransformGrid::updateGrid() {
+    std::cerr << "Error stream working" << std::endl;
     dim3 threads(THREAD_SIZE, THREAD_SIZE);
 	int blockXNum = ceil(sizeX/(float)threads.x);
 	int blockYNum = ceil(sizeY/(float)threads.y);
 	dim3 blocks(blockXNum, blockYNum);
 
     escapeTime<<<blocks, threads>>>(colorGridCUDA, maxIters, sizeX, sizeY, scale, startX, startY, coloringFunction);
+    auto err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        std::cerr << "CUDA error running kernel " << cudaGetErrorName(err) << ": " << cudaGetErrorString(err) << std::endl;
+    }
     cudaDeviceSynchronize();
-    cudaMemcpy(colorGrid.data(), colorGridCUDA, sizeof(*colorGridCUDA) * sizeX * sizeY, cudaMemcpyDeviceToHost);
+    err = cudaMemcpy(colorGrid.data(), colorGridCUDA, sizeof(*colorGridCUDA) * sizeX * sizeY, cudaMemcpyDeviceToHost);
+    if (err != cudaSuccess) {
+		std::cerr << "CUDA error running memcpy " << cudaGetErrorName(err) << ": " << cudaGetErrorString(err) << std::endl;
+	}
 }
 
 CudaMandelbrotImageTransformGrid::CudaMandelbrotImageTransformGrid(uint sizeX, uint sizeY, uint maxIters, double scale, double startX, double startY) {
-    cudaMalloc(&colorGridCUDA, sizeof(RGBColor) * sizeX * sizeY);
+    auto err = cudaMalloc(&colorGridCUDA, sizeof(RGBColor) * sizeX * sizeY);
+    if (err != cudaSuccess) {
+        std::cerr << "CUDA error while allocating memory " << cudaGetErrorName(err) << ": " << cudaGetErrorString(err) << std::endl;
+    }
     colorGrid = std::vector<RGBColor>(sizeX * sizeY);
     this->sizeX = sizeX;
     this->sizeY = sizeY;

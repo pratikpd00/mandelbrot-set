@@ -66,10 +66,10 @@ namespace ImageTransformGridTests {
 	TEST(testCudaGrid, Zoom) {
 		auto dimx = 1000;
 		auto dimy = 500;
-		CudaMandelbrotImageTransformGrid grid(dimx, dimy, 100, 1.0, 0.0, 0.0);
+		CudaMandelbrotImageTransformGrid grid(dimx, dimy, 100, 0.01, -1, -1);
 		grid.zoom(2.0, 0.0, 0.0);
 		std::vector<RGBColor> rawGrid(dimx * dimy);
-		escapeTimeSequential(rawGrid, 100, dimx, dimy, 2.0, 0.0, 0.0, ColoringFunctionType::DEFAULT);
+		escapeTimeSequential(rawGrid, 100, dimx, dimy, 0.02, -1, -1, ColoringFunctionType::DEFAULT);
 
 		for (int i = 0; i < dimx; i++) {
 			for (int j = 0; j < dimy; j++) {
@@ -111,9 +111,9 @@ namespace ImageTransformGridTests {
 
 
 	TEST(testCudaGrid, Pan) {
-		auto dimx = 20;
-		auto dimy = 10;
-		CudaMandelbrotImageTransformGrid grid(dimx, dimy, 100, 0.1, 0.0, 0.0);
+		auto dimx = 100;
+		auto dimy = 100;
+		CudaMandelbrotImageTransformGrid grid(dimx, dimy, 100, 0.1, -1, -1);
 		grid.translate(-100, -200);
 		std::vector<RGBColor> rawGrid(dimx * dimy);
 		escapeTimeSequential(rawGrid, 100, dimx, dimy, 0.1, 10, 20, ColoringFunctionType::DEFAULT);
@@ -345,6 +345,21 @@ namespace ImageTransformGridTests {
 		auto dimy = 10;
 		CudaMandelbrotImageTransformGrid cudaGrid(dimx, dimy, 100, 0.1, 0.0, 0.0);
 		CpuMandelbrotImageTransformGrid cpuGrid(dimx, dimy, 100, 0.1, 0.0, 0.0);
+		cudaGrid.translate(-100, -200);
+		cpuGrid.translate(-100, -200);
+
+		for (int i = 0; i < dimx; i++) {
+			for (int j = 0; j < dimy; j++) {
+				EXPECT_EQ(cudaGrid.get(i, j), cpuGrid.get(i, j));
+			}
+		}
+	}
+
+	TEST(testCudaAgainstCpu, PanLarge) {
+		auto dimx = 2000;
+		auto dimy = 1000;
+		CudaMandelbrotImageTransformGrid cudaGrid(dimx, dimy, 100, 0.01, 0.0, 0.0);
+		CpuMandelbrotImageTransformGrid cpuGrid(dimx, dimy, 100, 0.01, 0.0, 0.0);
 		cudaGrid.translate(-100, -200);
 		cpuGrid.translate(-100, -200);
 
