@@ -1,5 +1,6 @@
 #include "interactableImage.h"
 
+#define ZOOM_FACTOR 1.2
 void InteractableImage::update() {
 	for (auto i = 0; i < this->grid->getSizeX(); i++) {
 		for (auto j = 0; j < this->grid->getSizeY(); j++) {
@@ -29,7 +30,22 @@ void InteractableImage::pan(QPoint delta) {
 	this->update();
 }
 
-void InteractableImage::zoom(double scale, QPoint center) {
-	this->grid->zoom(scale, center.x(), center.y());
+void InteractableImage::zoom(double factor, QPoint center) {
+	this->grid->zoom(factor, center.x(), center.y());
 	this->update();
 }
+
+void InteractableImage::zoomOut() {
+	int x = this->grid->getSizeX() / 2;
+	int y = this->grid->getSizeY() / 2;
+	this->grid->zoom(ZOOM_FACTOR, x, y);
+	this->update();
+}
+
+void InteractableImage::zoomIn() {
+	int x = this->grid->getSizeX() / 2;
+	int y = this->grid->getSizeY() / 2;
+	this->grid->zoom(1/ZOOM_FACTOR, x, y);
+	this->update();
+}
+

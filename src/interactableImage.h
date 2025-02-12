@@ -30,6 +30,8 @@ public:
 public slots:
 	void pan(QPoint delta);
 	void zoom(double factor, QPoint center);
+	void zoomOut();
+	void zoomIn();
 
 signals:
 	void newPixmap(QPixmap map);

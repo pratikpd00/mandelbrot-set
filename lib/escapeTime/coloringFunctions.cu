@@ -8,7 +8,7 @@ __device__ __host__ RGBColor Default(int iterations, int maxIterations) {
 
 __device__ __host__ RGBColor Blue(int iterations, int maxIterations) {
     int weight = iterations * 255 / maxIterations;
-    return ALPHA_OPAQUE | (0 << 16) | (0 << 8) | weight;
+    return deviceColor(0, 0, weight);
 
 }
 

@@ -18,7 +18,7 @@ MandelbrotViewer::MandelbrotViewer(QWidget *parent)
 
     auto size = ui->mandelbrotView->size();
 
-    ImageTransformGrid* transformGrid = new CpuMandelbrotImageTransformGrid(size.width(), size.height(), 200, 0.005, -2, -1.5);
+    ImageTransformGrid* transformGrid = new CudaMandelbrotImageTransformGrid(size.width(), size.height(), 200, 0.005, -2, -1.5);
     image = unique_ptr<InteractableImage>(new InteractableImage(transformGrid));
 
     image->moveToThread(&processingThread);
@@ -29,6 +29,9 @@ MandelbrotViewer::MandelbrotViewer(QWidget *parent)
     connect(image.get(), &InteractableImage::newPixmap, ui->mandelbrotView, &InteractableImageView::update);
     connect(ui->mandelbrotView, &InteractableImageView::pan, image.get(), &InteractableImage::pan);
     connect(ui->mandelbrotView, &InteractableImageView::zoom, image.get(), &InteractableImage::zoom);
+
+    connect(ui->zoomInButton, &QAbstractButton::clicked, image.get(), &InteractableImage::zoomIn);
+    connect(ui->zoomOutButton, &QAbstractButton::clicked, image.get(), &InteractableImage::zoomOut);
 }
 
 MandelbrotViewer::~MandelbrotViewer()
